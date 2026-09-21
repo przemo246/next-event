@@ -1,7 +1,6 @@
-export default function Home() {
-  return (
-    <div className="flex flex-1 items-center justify-center">
-      <h1 className="text-3xl font-semibold">Ghost AI</h1>
-    </div>
-  );
-}
+import { Module } from "@/core/modules/landing";
+
+const Page = () => {
+  return <Module />;
+};
+export default Page;
