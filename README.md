@@ -1,4 +1,4 @@
-# Ghost AI
+# Next Event
 
 ## Getting Started
 

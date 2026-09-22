@@ -19,8 +19,8 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ghost AI",
-  description: "Ghost AI",
+  title: "Next Event",
+  description: "Next Event",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
