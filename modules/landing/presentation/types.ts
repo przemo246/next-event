@@ -13,7 +13,6 @@ export type PopularCity = {
   id: string;
   name: string;
   eventCount: number;
-  featured?: boolean;
 };
 
 export type QuickFilter = {

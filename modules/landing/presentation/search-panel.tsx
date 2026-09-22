@@ -1,3 +1,5 @@
+import { Button } from "@/libs/ui/button";
+
 import { DEFAULT_CITY } from "./mocks";
 
 export const SearchPanel = () => {
@@ -43,12 +45,9 @@ export const SearchPanel = () => {
         </select>
       </label>
 
-      <button
-        type="submit"
-        className="cursor-pointer bg-accent px-9.5 font-display text-[17px] font-bold text-accent-foreground transition-colors hover:bg-foreground"
-      >
+      <Button type="submit" className="px-9.5 py-0 text-[17px]">
         Szukaj
-      </button>
+      </Button>
     </form>
   );
 };
