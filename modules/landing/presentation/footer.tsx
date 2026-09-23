@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { Container } from "./container";
 import { FOOTER_LINK_GROUPS } from "./mocks";
 
 export const Footer = () => {
@@ -8,7 +7,7 @@ export const Footer = () => {
 
   return (
     <footer className="mt-auto border-t border-border bg-canvas-inset">
-      <Container className="grid grid-cols-1 gap-10 px-6 pt-11 pb-9 sm:grid-cols-[1.4fr_1fr_1fr_1fr] sm:px-10">
+      <div className="page-container grid grid-cols-1 gap-10 px-6 pt-11 pb-9 sm:grid-cols-[1.4fr_1fr_1fr_1fr] sm:px-10">
         <div>
           <div className="mb-3 flex items-center gap-2.5">
             <span className="flex h-6.5 w-6.5 items-center justify-center bg-accent font-display text-[17px] font-extrabold text-accent-foreground">
@@ -40,13 +39,13 @@ export const Footer = () => {
             ))}
           </div>
         ))}
-      </Container>
+      </div>
 
       <div className="border-t border-border">
-        <Container className="flex items-center justify-between px-6 py-4 font-mono text-xs text-foreground-muted sm:px-10">
+        <div className="page-container flex items-center justify-between px-6 py-4 font-mono text-xs text-foreground-muted sm:px-10">
           <span>© {year} Afisz</span>
           <span>Warszawa, Polska</span>
-        </Container>
+        </div>
       </div>
     </footer>
   );

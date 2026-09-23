@@ -1,13 +1,12 @@
 import Link from "next/link";
 
-import { Container } from "./container";
 import { EventCard } from "./event-card";
 import { FEATURED_EVENTS, FEATURED_EVENTS_TOTAL } from "./mocks";
 
 export const FeaturedEvents = () => {
   return (
     <section className="border-b border-border">
-      <Container className="px-6 sm:px-10">
+      <div className="page-container px-6 sm:px-10">
         <div className="flex items-baseline justify-between py-5">
           <h2 className="font-display text-4xl font-extrabold tracking-tight">
             Polecane wydarzenia
@@ -25,7 +24,7 @@ export const FeaturedEvents = () => {
             <EventCard key={event.id} event={event} />
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 };

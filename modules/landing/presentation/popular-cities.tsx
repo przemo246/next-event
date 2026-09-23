@@ -1,13 +1,12 @@
 import Link from "next/link";
 
 import { CityCard } from "./city-card";
-import { Container } from "./container";
 import { POPULAR_CITIES, POPULAR_CITIES_TOTAL } from "./mocks";
 
 export const PopularCities = () => {
   return (
     <section>
-      <Container className="px-6 py-10 sm:px-10">
+      <div className="page-container px-6 py-10 sm:px-10">
         <div className="mb-5 flex items-baseline justify-between">
           <h2 className="font-display text-4xl font-extrabold tracking-tight">
             Popularne miasta
@@ -25,7 +24,7 @@ export const PopularCities = () => {
             <CityCard key={city.id} city={city} />
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 };

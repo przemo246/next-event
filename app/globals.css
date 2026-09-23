@@ -20,3 +20,8 @@
   --font-body: var(--font-archivo), sans-serif;
   --font-mono: var(--font-dm-mono), monospace;
 }
+
+@utility page-container {
+  margin-inline: auto;
+  max-width: var(--container-7xl);
+}
