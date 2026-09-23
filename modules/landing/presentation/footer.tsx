@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Text } from "@/libs/ui/text";
+
 import { FOOTER_LINK_GROUPS } from "./mocks";
 
 export const Footer = () => {
@@ -17,17 +19,15 @@ export const Footer = () => {
               Afisz
             </span>
           </div>
-          <p className="max-w-[34ch] text-sm leading-relaxed text-foreground-muted">
+          <Text.Small className="max-w-[34ch] leading-relaxed">
             Wyszukiwarka wydarzeń w Polsce. 14 300 wydarzeń, 86 miast, jedna
             lista.
-          </p>
+          </Text.Small>
         </div>
 
         {FOOTER_LINK_GROUPS.map((group) => (
           <div key={group.title} className="flex flex-col gap-2.25 text-sm">
-            <span className="mb-1 font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-              {group.title}
-            </span>
+            <Text.Eyebrow className="mb-1">{group.title}</Text.Eyebrow>
             {group.links.map((link) => (
               <Link
                 key={link.label}

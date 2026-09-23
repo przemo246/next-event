@@ -1,13 +1,13 @@
 import Link from "next/link";
 
+import { Text } from "@/libs/ui/text";
+
 import { QUICK_FILTERS } from "./mocks";
 
 export const QuickFilters = () => {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="mr-1.5 font-mono text-xs tracking-widest text-foreground-muted uppercase">
-        Szybko:
-      </span>
+      <Text.Eyebrow className="mr-1.5 text-xs">Szybko:</Text.Eyebrow>
       {QUICK_FILTERS.map((filter) => (
         <Link
           key={filter.label}

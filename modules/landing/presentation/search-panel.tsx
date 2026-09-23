@@ -1,4 +1,5 @@
 import { Button } from "@/libs/ui/button";
+import { Text } from "@/libs/ui/text";
 
 import { DEFAULT_CITY } from "./mocks";
 
@@ -6,9 +7,7 @@ export const SearchPanel = () => {
   return (
     <form className="grid max-w-240 grid-cols-1 gap-px border border-border-strong bg-border sm:grid-cols-[1.5fr_1fr_1fr_auto]">
       <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          Szukaj
-        </span>
+        <Text.Eyebrow>Szukaj</Text.Eyebrow>
         <input
           type="text"
           name="query"
@@ -18,9 +17,7 @@ export const SearchPanel = () => {
       </label>
 
       <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          Miasto
-        </span>
+        <Text.Eyebrow>Miasto</Text.Eyebrow>
         <input
           type="text"
           name="city"
@@ -30,9 +27,7 @@ export const SearchPanel = () => {
       </label>
 
       <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          Kiedy
-        </span>
+        <Text.Eyebrow>Kiedy</Text.Eyebrow>
         <select
           name="when"
           defaultValue="Ten weekend"

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Text } from "@/libs/ui/text";
+
 import { EventCard } from "./event-card";
 import { FEATURED_EVENTS, FEATURED_EVENTS_TOTAL } from "./mocks";
 
@@ -8,9 +10,7 @@ export const FeaturedEvents = () => {
     <section className="border-b border-border">
       <div className="page-container px-6 sm:px-10">
         <div className="flex items-baseline justify-between py-5">
-          <h2 className="font-display text-4xl font-extrabold tracking-tight">
-            Polecane wydarzenia
-          </h2>
+          <Text.H2>Polecane wydarzenia</Text.H2>
           <Link
             href="#"
             className="font-mono text-[13px] tracking-wide text-accent uppercase"

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Text } from "@/libs/ui/text";
+
 import { CityCard } from "./city-card";
 import { POPULAR_CITIES, POPULAR_CITIES_TOTAL } from "./mocks";
 
@@ -8,9 +10,7 @@ export const PopularCities = () => {
     <section>
       <div className="page-container px-6 py-10 sm:px-10">
         <div className="mb-5 flex items-baseline justify-between">
-          <h2 className="font-display text-4xl font-extrabold tracking-tight">
-            Popularne miasta
-          </h2>
+          <Text.H2>Popularne miasta</Text.H2>
           <Link
             href="#"
             className="font-mono text-[13px] tracking-wide text-accent uppercase"

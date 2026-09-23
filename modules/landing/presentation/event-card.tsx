@@ -1,3 +1,5 @@
+import { Text } from "@/libs/ui/text";
+
 import type { FeaturedEvent } from "./types";
 
 type EventCardProps = {
@@ -12,18 +14,16 @@ export const EventCard = ({ event }: EventCardProps) => {
       </div>
 
       <div className="px-5 pt-4.5 pb-6">
-        <p className="mb-2 font-mono text-[11px] tracking-widest text-accent uppercase">
+        <Text.Eyebrow className="mb-2 block text-accent">
           {event.category} · {event.date}
-        </p>
-        <h3 className="mb-2 font-display text-2xl leading-[1.1] font-bold tracking-tight">
-          {event.title}
-        </h3>
-        <p className="text-sm text-foreground-secondary">
+        </Text.Eyebrow>
+        <Text.H3 className="mb-2">{event.title}</Text.H3>
+        <Text.Small className="text-foreground-secondary">
           {event.time} · {event.venue}, {event.city}
-        </p>
-        <p className="mt-2.5 font-mono text-[13px] text-foreground">
+        </Text.Small>
+        <Text.Mono className="mt-2.5 block text-foreground">
           od {event.priceFrom}
-        </p>
+        </Text.Mono>
       </div>
     </article>
   );

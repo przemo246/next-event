@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Text } from "@/libs/ui/text";
+
 import type { PopularCity } from "./types";
 import { formatEventCount } from "./utils";
 
@@ -16,9 +18,9 @@ export const CityCard = ({ city }: CityCardProps) => {
       <span className="font-display text-[34px] font-extrabold tracking-tight">
         {city.name}
       </span>
-      <span className="mt-1 font-mono text-[13px]">
+      <Text.Mono className="mt-1">
         {formatEventCount(city.eventCount)}
-      </span>
+      </Text.Mono>
     </Link>
   );
 };
