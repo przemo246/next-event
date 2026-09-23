@@ -1,6 +1,7 @@
+import { Header } from "@/shared/header/presentation/header";
+
 import { FeaturedEvents } from "./featured-events";
 import { Footer } from "./footer";
-import { Header } from "./header";
 import { Hero } from "./hero";
 import { PopularCities } from "./popular-cities";
 

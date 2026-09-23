@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Header } from "@/shared/header/presentation/header";
 import { Container } from "./container";
 import { Divider } from "./divider";
 import { OAuthButtons } from "./oauth-buttons";
@@ -8,6 +9,7 @@ import { Tabs } from "./tabs";
 export const Main = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
+      <Header />
       <div className="flex flex-1 items-center justify-center px-6 py-16 sm:px-10">
         <Container className="w-full max-w-md">
           <div className="mb-8 text-center">
