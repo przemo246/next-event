@@ -1,5 +1,9 @@
 import { Main } from "@/modules/login/presentation/main";
 
-export const Module = () => {
-  return <Main />;
+type ModuleProps = {
+  linkError?: boolean;
+};
+
+export const Module = ({ linkError }: ModuleProps) => {
+  return <Main linkError={linkError} />;
 };

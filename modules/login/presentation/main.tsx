@@ -1,35 +1,46 @@
 import Link from "next/link";
 import { Header } from "@/shared/header/presentation/header";
+import { Text } from "@/libs/ui/text";
 import { Container } from "./container";
 import { Divider } from "./divider";
 import { LoginForm } from "./login-form";
 import { OAuthButtons } from "./oauth-buttons";
 import { Tabs } from "./tabs";
 
-export const Main = () => {
+type MainProps = {
+  linkError?: boolean;
+};
+
+export const Main = ({ linkError = false }: MainProps) => {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
       <div className="flex flex-1 items-center justify-center px-6 py-16 sm:px-10">
         <Container className="w-full max-w-md">
           <div className="mb-8 text-center">
-            <h1 className="mb-3 font-display text-4xl leading-tight font-extrabold tracking-tight">
-              Wróć do <span className="text-accent">odkrywania wydarzeń</span>
-            </h1>
-            <p className="text-[15px] leading-relaxed text-foreground-secondary">
+            <Text.H1 className="mb-3">
+              Wróć do <Text.Accent>odkrywania wydarzeń</Text.Accent>
+            </Text.H1>
+            <Text.Lead>
               Zapisuj wydarzenia, śledź ceny i jako pierwszy dowiaduj się o
               aktualizacjach.
-            </p>
+            </Text.Lead>
           </div>
 
           <div className="flex flex-col gap-6 border border-border bg-canvas-raised p-8">
             <OAuthButtons />
             <Divider />
             <Tabs />
+            {linkError && (
+              <Text.Error className="border border-danger px-4 py-3">
+                Link aktywacyjny wygasł lub jest nieprawidłowy. Zaloguj się, aby
+                otrzymać nowy.
+              </Text.Error>
+            )}
             <LoginForm />
           </div>
 
-          <p className="mt-6 text-center text-xs leading-relaxed text-foreground-faint">
+          <Text.Caption className="mt-6 text-center">
             Logując się, akceptujesz{" "}
             <Link
               href="/regulamin"
@@ -38,7 +49,7 @@ export const Main = () => {
               regulamin serwisu
             </Link>{" "}
             Afisz.
-          </p>
+          </Text.Caption>
         </Container>
       </div>
     </div>

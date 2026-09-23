@@ -1,18 +1,24 @@
 "use client";
 
-import { useActionState } from "react";
 import { Button } from "@/libs/ui/button";
-import { register } from "../actions/register";
+import { Text } from "@/libs/ui/text";
+import type { RegisterState } from "../types/register";
 
-export const RegisterForm = () => {
-  const [state, formAction, pending] = useActionState(register, undefined);
+type RegisterFormProps = {
+  state: RegisterState;
+  formAction: (formData: FormData) => void;
+  pending: boolean;
+};
 
+export const RegisterForm = ({
+  state,
+  formAction,
+  pending,
+}: RegisterFormProps) => {
   return (
     <form action={formAction} className="flex flex-col gap-5">
       <label className="flex flex-col gap-1.5">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          E-mail
-        </span>
+        <Text.Eyebrow>E-mail</Text.Eyebrow>
         <input
           type="email"
           name="email"
@@ -23,9 +29,7 @@ export const RegisterForm = () => {
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          Hasło
-        </span>
+        <Text.Eyebrow>Hasło</Text.Eyebrow>
         <input
           type="password"
           name="password"
@@ -37,9 +41,7 @@ export const RegisterForm = () => {
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="font-mono text-[11px] tracking-widest text-foreground-muted uppercase">
-          Powtórz hasło
-        </span>
+        <Text.Eyebrow>Powtórz hasło</Text.Eyebrow>
         <input
           type="password"
           name="confirmPassword"
@@ -50,7 +52,7 @@ export const RegisterForm = () => {
         />
       </label>
 
-      {state?.error && <p className="text-sm text-accent">{state.error}</p>}
+      {state && "error" in state && <Text.Error>{state.error}</Text.Error>}
 
       <Button type="submit" isDisabled={pending}>
         {pending ? "Rejestracja…" : "Zarejestruj się"}

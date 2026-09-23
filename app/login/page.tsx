@@ -5,7 +5,9 @@ export const metadata: Metadata = {
   title: "Zaloguj się",
 };
 
-const Page = () => {
-  return <Module />;
+const Page = async ({ searchParams }: PageProps<"/login">) => {
+  const { error } = await searchParams;
+
+  return <Module linkError={error === "confirm"} />;
 };
 export default Page;

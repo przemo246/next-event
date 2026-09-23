@@ -1,1 +1,2 @@
-export type RegisterState = { error: string } | undefined;
+export type RegisterState =
+  { error: string } | { confirmationSentTo: string } | undefined;

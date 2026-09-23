@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Header } from "@/shared/header/presentation/header";
+import { Text } from "@/libs/ui/text";
 import { Container } from "./container";
 import { Divider } from "./divider";
 import { OAuthButtons } from "./oauth-buttons";
-import { RegisterForm } from "./register-form";
+import { RegisterCard } from "./register-card";
 import { Tabs } from "./tabs";
 
 export const Main = () => {
@@ -13,23 +14,26 @@ export const Main = () => {
       <div className="flex flex-1 items-center justify-center px-6 py-16 sm:px-10">
         <Container className="w-full max-w-md">
           <div className="mb-8 text-center">
-            <h1 className="mb-3 font-display text-4xl leading-tight font-extrabold tracking-tight">
-              Znajdź swoje <span className="text-accent">następne wydarzenie</span>
-            </h1>
-            <p className="text-[15px] leading-relaxed text-foreground-secondary">
-              Załóż konto, zapisuj ulubione wydarzenia i jako pierwszy
-              dowiaduj się o aktualizacjach.
-            </p>
+            <Text.H1 className="mb-3">
+              Znajdź swoje <Text.Accent>następne wydarzenie</Text.Accent>
+            </Text.H1>
+            <Text.Lead>
+              Załóż konto, zapisuj ulubione wydarzenia i jako pierwszy dowiaduj
+              się o aktualizacjach.
+            </Text.Lead>
           </div>
 
-          <div className="flex flex-col gap-6 border border-border bg-canvas-raised p-8">
-            <OAuthButtons />
-            <Divider />
-            <Tabs />
-            <RegisterForm />
-          </div>
+          <RegisterCard
+            intro={
+              <>
+                <OAuthButtons />
+                <Divider />
+                <Tabs />
+              </>
+            }
+          />
 
-          <p className="mt-6 text-center text-xs leading-relaxed text-foreground-faint">
+          <Text.Caption className="mt-6 text-center">
             Rejestrując się, akceptujesz{" "}
             <Link
               href="/regulamin"
@@ -38,7 +42,7 @@ export const Main = () => {
               regulamin serwisu
             </Link>{" "}
             Afisz.
-          </p>
+          </Text.Caption>
         </Container>
       </div>
     </div>

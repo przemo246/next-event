@@ -27,11 +27,16 @@ export async function register(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
     return { error: "Nie udało się utworzyć konta. Spróbuj ponownie." };
   }
 
-  redirect("/");
+  // A session is only returned when e-mail confirmation is disabled.
+  if (data.session) {
+    redirect("/");
+  }
+
+  return { confirmationSentTo: email };
 }

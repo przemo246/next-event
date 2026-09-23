@@ -26,6 +26,13 @@ export async function login(
     password,
   });
 
+  if (error?.code === "email_not_confirmed") {
+    return {
+      error: "Najpierw potwierdź adres e-mail, klikając link z wiadomości.",
+      unconfirmedEmail: email,
+    };
+  }
+
   if (error) {
     return { error: "Nieprawidłowy e-mail lub hasło." };
   }
