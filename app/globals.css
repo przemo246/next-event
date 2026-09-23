@@ -16,6 +16,8 @@
   --color-accent: #ff7a29;
   --color-accent-foreground: #1f2024;
 
+  --color-danger: #f87171;
+
   --font-display: var(--font-bricolage-grotesque), sans-serif;
   --font-body: var(--font-archivo), sans-serif;
   --font-mono: var(--font-dm-mono), monospace;
