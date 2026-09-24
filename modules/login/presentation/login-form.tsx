@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/libs/ui/button";
 import { ResendButton } from "@/shared/email-confirmation/presentation/resend-button";
@@ -37,12 +36,9 @@ export const LoginForm = () => {
 
         {state?.error && <Text.Error>{state.error}</Text.Error>}
 
-        <Link
-          href="/resetuj-haslo"
-          className="-mt-2 text-sm font-bold text-foreground-secondary underline decoration-border-strong underline-offset-4 transition-colors hover:text-accent"
-        >
+        <Button href="/resetuj-haslo" variant="link" className="-mt-2 self-start">
           Nie pamiętasz hasła?
-        </Link>
+        </Button>
 
         <Button type="submit" isDisabled={pending}>
           {pending ? "Logowanie…" : "Zaloguj się"}

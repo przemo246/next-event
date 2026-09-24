@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
 
 import { CityCard } from "./city-card";
@@ -11,12 +10,9 @@ export const PopularCities = () => {
       <div className="page-container px-6 py-10 sm:px-10">
         <div className="mb-5 flex items-baseline justify-between">
           <Text.H2>Popularne miasta</Text.H2>
-          <Link
-            href="#"
-            className="font-mono text-[13px] tracking-wide text-accent uppercase"
-          >
+          <Button href="#" variant="link-accent">
             Wszystkie {POPULAR_CITIES_TOTAL} →
-          </Link>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

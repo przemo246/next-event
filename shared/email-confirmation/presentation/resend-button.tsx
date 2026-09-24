@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 
+import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
 import { resendConfirmation } from "../actions/resend";
 import type { ResendState } from "../types/resend";
@@ -40,17 +41,18 @@ export const ResendButton = ({
   return (
     <form action={formAction} className="flex flex-col gap-2">
       <input type="hidden" name="email" value={email} />
-      <button
+      <Button
         type="submit"
-        disabled={pending || cooldown > 0}
-        className="cursor-pointer self-start text-sm font-bold text-foreground-secondary underline decoration-border-strong underline-offset-4 transition-colors hover:text-accent disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:text-foreground-secondary"
+        variant="link"
+        isDisabled={pending || cooldown > 0}
+        className="self-start"
       >
         {pending
           ? "Wysyłanie…"
           : cooldown > 0
             ? `Wyślij ponownie (${cooldown} s)`
             : "Wyślij link ponownie"}
-      </button>
+      </Button>
       {state && "error" in state && (
         <Text.Error>{state.error}</Text.Error>
       )}
