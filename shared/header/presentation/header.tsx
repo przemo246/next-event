@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button } from "@/libs/ui/button";
+import { UserMenu } from "@/shared/user-menu/presentation/user-menu";
 
 export const Header = () => {
   return (
@@ -15,9 +15,7 @@ export const Header = () => {
           </span>
         </Link>
 
-        <Button href="/login" className="px-5.5 py-2.75">
-          Zaloguj się
-        </Button>
+        <UserMenu />
       </div>
     </header>
   );
