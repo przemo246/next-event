@@ -1,4 +1,14 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
+import { loadEnvFile } from "node:process";
 import { defineConfig, devices } from "@playwright/test";
+
+// Playwright does not load Next.js environment files by itself. The E2E
+// support code runs in this process and needs the same Supabase settings.
+const envFile = resolve(process.cwd(), ".env.local");
+if (existsSync(envFile)) {
+  loadEnvFile(envFile);
+}
 
 const PORT = 3000;
 // Matches `auth.site_url` in supabase/config.toml, so auth emails link back here.
