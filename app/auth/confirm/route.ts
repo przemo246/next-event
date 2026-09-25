@@ -1,14 +1,13 @@
 import type { EmailOtpType } from "@supabase/supabase-js";
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { createClient } from "@/core/supabase/server";
+import { redirectTo, safePath } from "../redirect";
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/";
-  // Only allow same-origin paths, never "//evil.com" or absolute URLs.
-  const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/";
+  const next = safePath(searchParams.get("next"));
 
   if (tokenHash && type) {
     const supabase = await createClient();
@@ -18,9 +17,9 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
-      return NextResponse.redirect(`${origin}${safeNext}`);
+      return redirectTo(request, next);
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=confirm`);
+  return redirectTo(request, "/login?error=confirm");
 }
