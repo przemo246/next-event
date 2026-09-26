@@ -1,11 +1,8 @@
 import { expect, test } from "@playwright/test";
-import {
-  fillLoginForm,
-  registerConfirmedUser,
-  uniqueEmail,
-} from "./support/auth";
+import { fillLoginForm, uniqueEmail } from "./support/auth";
+import { E2E_LOGIN_USER } from "./support/test-user";
 
-// Requires a running local Supabase (`pnpm db:start`); e-mails are read from Mailpit.
+// Requires a running local Supabase (`pnpm db:start`).
 
 const INVALID_CREDENTIALS = "Nieprawidłowy e-mail lub hasło.";
 
@@ -13,10 +10,9 @@ test("confirmed user logs in and sees their account in the header", async ({
   page,
   context,
 }) => {
-  const email = await registerConfirmedUser(page);
   await context.clearCookies();
 
-  await fillLoginForm(page, email);
+  await fillLoginForm(page, E2E_LOGIN_USER.email, E2E_LOGIN_USER.password);
 
   await expect(page).toHaveURL("/");
   await expect(
@@ -26,10 +22,9 @@ test("confirmed user logs in and sees their account in the header", async ({
 });
 
 test("shows an error for a wrong password", async ({ page, context }) => {
-  const email = await registerConfirmedUser(page);
   await context.clearCookies();
 
-  await fillLoginForm(page, email, "wrong-password");
+  await fillLoginForm(page, E2E_LOGIN_USER.email, "wrong-password");
 
   await expect(page).toHaveURL("/login");
   await expect(page.getByText(INVALID_CREDENTIALS)).toBeVisible();
