@@ -5,7 +5,7 @@ const requireEnv = (name: string) => {
 
   if (!value) {
     throw new Error(
-      `Missing ${name}. Copy the server-only Supabase key from \`pnpm db:status\` into .env.local.`,
+      `Missing ${name}. Copy the Supabase URL and server-only key from \`pnpm exec supabase status -o env\` into .env.local.`,
     );
   }
 

@@ -1,9 +1,10 @@
 import { type Page } from "@playwright/test";
+import { E2E_EMAIL_PREFIX } from "./test-user";
 
 export const PASSWORD = "e2e-password-123";
 
 export const uniqueEmail = () =>
-  `e2e-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
+  `${E2E_EMAIL_PREFIX}${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
 
 export const fillLoginForm = async (
   page: Page,

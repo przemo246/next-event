@@ -1,24 +1,32 @@
 import { expect, test, type Page } from "@playwright/test";
+import { PASSWORD, uniqueEmail } from "./support/auth";
 import { extractConfirmLink, waitForEmail } from "./support/mailpit";
+import { deleteUserByEmail } from "./support/test-user";
 
 // Requires a running local Supabase (`pnpm db:start`); e-mails are read from Mailpit.
 
-const PASSWORD = "e2e-password-123";
-
-const uniqueEmail = () =>
-  `e2e-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
+const createdEmails = new Set<string>();
 
 const fillRegisterForm = async (
   page: Page,
   email: string,
   confirmPassword = PASSWORD,
 ) => {
+  createdEmails.add(email);
+
   await page.goto("/register");
   await page.getByLabel("E-mail").fill(email);
   await page.getByLabel("Hasło", { exact: true }).fill(PASSWORD);
   await page.getByLabel("Powtórz hasło").fill(confirmPassword);
   await page.getByRole("button", { name: "Zarejestruj się" }).click();
 };
+
+test.afterEach(async () => {
+  const emails = [...createdEmails];
+  createdEmails.clear();
+
+  await Promise.all(emails.map((email) => deleteUserByEmail(email)));
+});
 
 test("new user signs up and confirms their e-mail", async ({
   page,
