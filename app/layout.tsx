@@ -27,9 +27,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pl"
-      className={`${bricolageGrotesque.variable} ${archivo.variable} ${dmMono.variable} h-full antialiased`}
+      className={`${bricolageGrotesque.variable} ${archivo.variable} ${dmMono.variable} h-full bg-canvas antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-canvas">{children}</body>
     </html>
   );
 }
