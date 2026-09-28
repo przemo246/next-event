@@ -1,6 +1,7 @@
 import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
 
+import { DateRangeField } from "./date-range-field";
 import { DEFAULT_CITY } from "./mocks";
 
 export const SearchPanel = () => {
@@ -26,19 +27,10 @@ export const SearchPanel = () => {
         />
       </label>
 
-      <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
+      <div className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Kiedy</Text.Eyebrow>
-        <select
-          name="when"
-          defaultValue="Ten weekend"
-          className="bg-transparent text-[17px] text-foreground outline-none"
-        >
-          <option>Ten weekend</option>
-          <option>Dziś wieczorem</option>
-          <option>Ten tydzień</option>
-          <option>Wybierz datę</option>
-        </select>
-      </label>
+        <DateRangeField />
+      </div>
 
       <Button type="submit" className="px-9.5 py-0 text-[17px]">
         Szukaj
