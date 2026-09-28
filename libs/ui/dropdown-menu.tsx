@@ -65,7 +65,7 @@ export type DropdownItemProps = AriaMenuItemProps;
 const Item = ({ className, ...props }: DropdownItemProps) => (
   <AriaMenuItem
     className={cn(
-      "flex cursor-pointer items-center px-4 py-2.5 text-sm text-foreground-secondary outline-none select-none",
+      "flex cursor-pointer items-center px-4 py-2.5 text-sm text-foreground outline-none select-none font-body",
       "data-focused:bg-canvas-inset data-focused:text-accent",
       "data-disabled:cursor-not-allowed data-disabled:opacity-60",
       className,
