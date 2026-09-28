@@ -13,6 +13,7 @@ const eslintConfig = defineConfig([
         "warn",
         { cssPath: "./app/globals.css" },
       ],
+      "no-nested-ternary": "warn",
     },
   },
   // Override default ignores of eslint-config-next.
