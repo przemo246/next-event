@@ -8,8 +8,6 @@ import type {
 export const HERO_SUBTITLE =
   "Koncerty, teatr, kino, kluby, festiwale i sport — 14 300 wydarzeń w 86 miastach. Szukaj po dacie, mieście i kategorii.";
 
-export const DEFAULT_CITY = "Warszawa";
-
 export const QUICK_FILTERS: QuickFilter[] = [
   { label: "Dziś wieczorem", href: "#" },
   { label: "Koncerty", href: "#" },

@@ -3,7 +3,6 @@ import { Text } from "@/libs/ui/text";
 import { CityField } from "@/shared/modules/city-field/presentation/city-field";
 
 import { DateRangeField } from "./date-range-field";
-import { DEFAULT_CITY } from "./mocks";
 
 export const SearchPanel = () => {
   return (
@@ -20,7 +19,7 @@ export const SearchPanel = () => {
 
       <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Miasto</Text.Eyebrow>
-        <CityField defaultValue={DEFAULT_CITY} />
+        <CityField />
       </label>
 
       <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
