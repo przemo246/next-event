@@ -37,12 +37,12 @@ const formatWeekday = (day: string) => {
 };
 
 /* =============================================================================
- * Range
+ * Calendar
  * ============================================================================= */
 
-export type CalendarRangeProps<T extends DateValue> = AriaRangeCalendarProps<T>;
+export type CalendarProps<T extends DateValue> = AriaRangeCalendarProps<T>;
 
-const Range = <T extends DateValue>({ className, ...props }: CalendarRangeProps<T>) => (
+export const Calendar = <T extends DateValue>({ className, ...props }: CalendarProps<T>) => (
   <AriaRangeCalendar className={cn("w-full", className)} {...props}>
     <header className="mb-4 flex items-center justify-between">
       <AriaButton
@@ -100,13 +100,3 @@ const Range = <T extends DateValue>({ className, ...props }: CalendarRangeProps<
     </AriaCalendarGrid>
   </AriaRangeCalendar>
 );
-
-Range.displayName = "Calendar.Range";
-
-/* =============================================================================
- * Calendar
- * ============================================================================= */
-
-export const Calendar = {
-  Range,
-};

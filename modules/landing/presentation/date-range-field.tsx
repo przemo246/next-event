@@ -166,7 +166,7 @@ export const DateRangeField = () => {
                 </div>
 
                 <I18nProvider locale="pl-PL">
-                  <Calendar.Range
+                  <Calendar
                     aria-label="Zakres dat"
                     value={draftRange}
                     onChange={setDraftRange}
