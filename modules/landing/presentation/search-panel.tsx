@@ -1,6 +1,7 @@
 import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
 
+import { CityField } from "./city-field";
 import { DateRangeField } from "./date-range-field";
 import { DEFAULT_CITY } from "./mocks";
 
@@ -13,19 +14,14 @@ export const SearchPanel = () => {
           type="text"
           name="query"
           placeholder="Artysta, klub, tytuł…"
-          className="bg-transparent text-[17px] text-foreground placeholder:text-foreground outline-none"
+          className="bg-transparent text-[17px] text-foreground placeholder:text-foreground-muted outline-none"
         />
       </label>
 
-      <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
+      <div className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Miasto</Text.Eyebrow>
-        <input
-          type="text"
-          name="city"
-          defaultValue={DEFAULT_CITY}
-          className="bg-transparent text-[17px] text-foreground outline-none"
-        />
-      </label>
+        <CityField defaultValue={DEFAULT_CITY} />
+      </div>
 
       <div className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Kiedy</Text.Eyebrow>
