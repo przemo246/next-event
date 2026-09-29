@@ -38,6 +38,13 @@ export const ResendButton = ({
     return () => clearTimeout(timeout);
   }, [cooldown]);
 
+  let label = "Wyślij link ponownie";
+  if (pending) {
+    label = "Wysyłanie…";
+  } else if (cooldown > 0) {
+    label = `Wyślij ponownie (${cooldown} s)`;
+  }
+
   return (
     <form action={formAction} className="flex flex-col gap-2">
       <input type="hidden" name="email" value={email} />
@@ -47,11 +54,7 @@ export const ResendButton = ({
         isDisabled={pending || cooldown > 0}
         className="self-start"
       >
-        {pending
-          ? "Wysyłanie…"
-          : cooldown > 0
-            ? `Wyślij ponownie (${cooldown} s)`
-            : "Wyślij link ponownie"}
+        {label}
       </Button>
       {state && "error" in state && (
         <Text.Error>{state.error}</Text.Error>
