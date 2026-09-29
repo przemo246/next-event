@@ -199,7 +199,7 @@ export const DateRangeField = () => {
                         close();
                       }}
                       className={cn(
-                        "flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left text-sm  text-foreground outline-none hover:bg-canvas-inset hover:text-accent",
+                        "flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left text-sm text-foreground outline-none hover:bg-canvas-inset hover:text-accent select-none font-body",
                         preset.id === ANY_PRESET_ID && "border-b border-border",
                       )}
                     >
@@ -211,7 +211,7 @@ export const DateRangeField = () => {
                 <button
                   type="button"
                   onClick={() => setView("calendar")}
-                  className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left text-sm text-foreground outline-none hover:bg-canvas-inset hover:text-accent"
+                  className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left text-sm text-foreground outline-none hover:bg-canvas-inset hover:text-accent select-none font-body"
                 >
                   Niestandardowy zakres dat
                   <ChevronRight className="size-4 text-foreground-muted" />
