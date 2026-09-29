@@ -1,7 +1,7 @@
 import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
+import { CityField } from "@/shared/modules/city-field/presentation/city-field";
 
-import { CityField } from "./city-field";
 import { DateRangeField } from "./date-range-field";
 import { DEFAULT_CITY } from "./mocks";
 
@@ -18,15 +18,15 @@ export const SearchPanel = () => {
         />
       </label>
 
-      <div className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
+      <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Miasto</Text.Eyebrow>
         <CityField defaultValue={DEFAULT_CITY} />
-      </div>
+      </label>
 
-      <div className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
+      <label className="flex flex-col gap-1.5 bg-canvas-raised px-5 py-4">
         <Text.Eyebrow>Kiedy</Text.Eyebrow>
         <DateRangeField />
-      </div>
+      </label>
 
       <Button type="submit" className="px-9.5 py-0 text-[17px]">
         Szukaj

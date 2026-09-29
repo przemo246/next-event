@@ -9,8 +9,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "@/libs/cn";
-
-import { POLISH_CITIES } from "./polish-cities";
+import { POLISH_CITIES } from "@/shared/data/polish-cities";
 
 type CityFieldProps = {
   name?: string;
@@ -24,7 +23,6 @@ export const CityField = ({ name = "city", defaultValue }: CityFieldProps) => {
       name={name}
       defaultInputValue={defaultValue}
       defaultItems={POLISH_CITIES.map((city) => ({ id: city }))}
-      allowsCustomValue
       menuTrigger="input"
       className="w-full"
     >
