@@ -2,6 +2,7 @@
 
 import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
+import { TextField } from "@/libs/ui/text-field";
 import type { RegisterState } from "../types/register";
 
 type RegisterFormProps = {
@@ -17,40 +18,31 @@ export const RegisterForm = ({
 }: RegisterFormProps) => {
   return (
     <form action={formAction} className="flex flex-col gap-5">
-      <label className="flex flex-col gap-1.5">
-        <Text.Eyebrow>E-mail</Text.Eyebrow>
-        <input
-          type="email"
-          name="email"
-          autoComplete="email"
-          required
-          className="border border-border-strong bg-canvas px-4 py-3 text-[15px] text-foreground outline-none focus:border-accent"
-        />
-      </label>
+      <TextField
+        label="E-mail"
+        type="email"
+        name="email"
+        autoComplete="email"
+        required
+      />
 
-      <label className="flex flex-col gap-1.5">
-        <Text.Eyebrow>Hasło</Text.Eyebrow>
-        <input
-          type="password"
-          name="password"
-          autoComplete="new-password"
-          minLength={6}
-          required
-          className="border border-border-strong bg-canvas px-4 py-3 text-[15px] text-foreground outline-none focus:border-accent"
-        />
-      </label>
+      <TextField
+        label="Hasło"
+        type="password"
+        name="password"
+        autoComplete="new-password"
+        minLength={6}
+        required
+      />
 
-      <label className="flex flex-col gap-1.5">
-        <Text.Eyebrow>Powtórz hasło</Text.Eyebrow>
-        <input
-          type="password"
-          name="confirmPassword"
-          autoComplete="new-password"
-          minLength={6}
-          required
-          className="border border-border-strong bg-canvas px-4 py-3 text-[15px] text-foreground outline-none focus:border-accent"
-        />
-      </label>
+      <TextField
+        label="Powtórz hasło"
+        type="password"
+        name="confirmPassword"
+        autoComplete="new-password"
+        minLength={6}
+        required
+      />
 
       {state && "error" in state && <Text.Error>{state.error}</Text.Error>}
 
