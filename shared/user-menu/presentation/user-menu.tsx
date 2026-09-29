@@ -16,7 +16,9 @@ export const UserMenu = async () => {
 
   return (
     <div className="flex items-center gap-3">
-      <Button className="px-5.5 py-2.75">Dodaj wydarzenie</Button>
+      <Button href="/create-event" className="px-5.5 py-2.75">
+        Dodaj wydarzenie
+      </Button>
       <UserMenuDropdown />
     </div>
   );
