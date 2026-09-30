@@ -6,7 +6,7 @@ import { ConfirmationSent } from "./confirmation-sent";
 import { RegisterForm } from "./register-form";
 
 type RegisterCardProps = {
-  // OAuth buttons and tabs; rendered on the server and hidden once the
+  // The login/register tabs; rendered on the server and hidden once the
   // confirmation e-mail has been sent.
   intro: ReactNode;
 };

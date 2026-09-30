@@ -2,9 +2,7 @@ import Link from "next/link";
 import { Header } from "@/shared/header/presentation/header";
 import { Text } from "@/libs/ui/text";
 import { Container } from "./container";
-import { Divider } from "./divider";
 import { LoginForm } from "./login-form";
-import { OAuthButtons } from "./oauth-buttons";
 import { Tabs } from "./tabs";
 
 type MainProps = {
@@ -28,8 +26,6 @@ export const Main = ({ linkError = false }: MainProps) => {
           </div>
 
           <div className="flex flex-col gap-6 border border-border bg-canvas-raised p-8">
-            <OAuthButtons />
-            <Divider />
             <Tabs />
             {linkError && (
               <Text.Error className="border border-danger px-4 py-3">

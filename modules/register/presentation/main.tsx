@@ -2,8 +2,6 @@ import Link from "next/link";
 import { Header } from "@/shared/header/presentation/header";
 import { Text } from "@/libs/ui/text";
 import { Container } from "./container";
-import { Divider } from "./divider";
-import { OAuthButtons } from "./oauth-buttons";
 import { RegisterCard } from "./register-card";
 import { Tabs } from "./tabs";
 
@@ -23,15 +21,7 @@ export const Main = () => {
             </Text.Lead>
           </div>
 
-          <RegisterCard
-            intro={
-              <>
-                <OAuthButtons />
-                <Divider />
-                <Tabs />
-              </>
-            }
-          />
+          <RegisterCard intro={<Tabs />} />
 
           <Text.Caption className="mt-6 text-center">
             Rejestrując się, akceptujesz{" "}
