@@ -56,7 +56,10 @@ export const schema = z.object({
     .max(150, "Adres może mieć maksymalnie 150 znaków."),
   city: z
     .string()
-    .refine((value) => POLISH_CITIES.includes(value), "Wybierz miasto z listy."),
+    .refine(
+      (value) => POLISH_CITIES.includes(value),
+      "Wybierz miasto z listy.",
+    ),
   startDate: z.string().min(1, "Podaj datę rozpoczęcia."),
   startTime: z.string().min(1, "Podaj godzinę rozpoczęcia."),
   endDate: z.string().optional(),
