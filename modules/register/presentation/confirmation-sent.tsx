@@ -1,4 +1,4 @@
-import { ResendButton } from "@/shared/email-confirmation/presentation/resend-button";
+import { ResendButton } from "@/shared/modules/email-confirmation/presentation/resend-button";
 import { Text } from "@/libs/ui/text";
 
 type ConfirmationSentProps = {

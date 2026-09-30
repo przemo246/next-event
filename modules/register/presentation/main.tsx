@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Header } from "@/shared/header/presentation/header";
+import { Header } from "@/shared/modules/header/presentation/header";
 import { Text } from "@/libs/ui/text";
 import { Container } from "./container";
 import { RegisterCard } from "./register-card";

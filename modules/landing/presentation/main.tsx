@@ -1,4 +1,4 @@
-import { Header } from "@/shared/header/presentation/header";
+import { Header } from "@/shared/modules/header/presentation/header";
 
 import { FeaturedEvents } from "./featured-events";
 import { Footer } from "./footer";

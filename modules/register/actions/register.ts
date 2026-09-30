@@ -1,45 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { createClient } from "@/core/supabase/server";
 import type { RegisterState } from "../types/register";
-
-// Reserved because each of these is, or reads like, a route of the site.
-const RESERVED_USERNAMES = [
-  "admin",
-  "administrator",
-  "api",
-  "auth",
-  "create-event",
-  "help",
-  "login",
-  "logout",
-  "profil",
-  "profile",
-  "register",
-  "root",
-  "support",
-  "wydarzenia",
-];
-
-// Handles end up in the site's URLs, so the charset is ASCII-only and the regex
-// matches the CHECK constraint on public.profiles exactly. Polish diacritics are
-// rejected rather than transliterated, so "zażółć" has to be typed without them.
-const usernameSchema = z
-  .string()
-  .trim()
-  .toLowerCase()
-  .min(3, "Nazwa użytkownika musi mieć co najmniej 3 znaki.")
-  .max(30, "Nazwa użytkownika może mieć maksymalnie 30 znaków.")
-  .regex(
-    /^[a-z0-9_]+$/,
-    "Użyj tylko małych liter, cyfr i podkreśleń.",
-  )
-  .refine(
-    (value) => !RESERVED_USERNAMES.includes(value),
-    "Ta nazwa jest zarezerwowana.",
-  );
+import { usernameSchema } from "../validation";
 
 export async function register(
   _state: RegisterState,

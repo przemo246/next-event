@@ -1,4 +1,4 @@
-import { Header } from "@/shared/header/presentation/header";
+import { Header } from "@/shared/modules/header/presentation/header";
 import { Text } from "@/libs/ui/text";
 import { CreateEventForm } from "./create-event-form";
 

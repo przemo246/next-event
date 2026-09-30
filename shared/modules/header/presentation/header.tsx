@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { UserMenu } from "@/shared/user-menu/presentation/user-menu";
+import { UserMenu } from "@/shared/modules/user-menu/presentation/user-menu";
 
 export const Header = () => {
   return (

@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { Button } from "@/libs/ui/button";
-import { ResendButton } from "@/shared/email-confirmation/presentation/resend-button";
+import { ResendButton } from "@/shared/modules/email-confirmation/presentation/resend-button";
 import { Text } from "@/libs/ui/text";
 import { TextField } from "@/libs/ui/text-field";
 import { login } from "../actions/login";
