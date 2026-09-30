@@ -2,60 +2,16 @@
 
 import DOMPurify from "isomorphic-dompurify";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { createClient } from "@/core/supabase/server";
-import { POLISH_CITIES } from "@/shared/data/polish-cities";
 import type { CreateEventState } from "../types/create-event";
-
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES: Record<string, string> = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/webp": "webp",
-};
-
-const ALLOWED_DESCRIPTION_TAGS = ["p", "br", "b", "strong", "i", "em", "ul", "ol", "li", "a"];
-
-const isValidUrl = (value: string) => {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const combineDateAndTime = (date: string, time: string) => {
-  const combined = new Date(`${date}T${time}`);
-
-  return Number.isNaN(combined.getTime()) ? null : combined;
-};
-
-const schema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Podaj nazwę wydarzenia.")
-    .max(100, "Nazwa może mieć maksymalnie 100 znaków."),
-  description: z.string().trim().min(1, "Opis wydarzenia jest wymagany."),
-  street: z
-    .string()
-    .trim()
-    .min(1, "Podaj adres (ulicę i numer).")
-    .max(150, "Adres może mieć maksymalnie 150 znaków."),
-  city: z
-    .string()
-    .refine((value) => POLISH_CITIES.includes(value), "Wybierz miasto z listy."),
-  startDate: z.string().min(1, "Podaj datę rozpoczęcia."),
-  startTime: z.string().min(1, "Podaj godzinę rozpoczęcia."),
-  endDate: z.string().optional(),
-  endTime: z.string().optional(),
-  link: z
-    .string()
-    .trim()
-    .refine((value) => value === "" || isValidUrl(value), "Podaj poprawny link (np. https://…).")
-    .optional(),
-});
+import {
+  ALLOWED_DESCRIPTION_TAGS,
+  combineDateAndTime,
+  imageExtension,
+  schema,
+  validateEventTiming,
+  validateImage,
+} from "../validation";
 
 export async function createEvent(
   _state: CreateEventState,
@@ -86,10 +42,6 @@ export async function createEvent(
     return { error: "Podaj poprawną datę i godzinę rozpoczęcia." };
   }
 
-  if (startsAt.getTime() <= Date.now()) {
-    return { error: "Data wydarzenia musi być w przyszłości." };
-  }
-
   let endsAt: Date | null = null;
 
   if (endDate && endTime) {
@@ -98,10 +50,12 @@ export async function createEvent(
     if (!endsAt) {
       return { error: "Podaj poprawną datę i godzinę zakończenia." };
     }
+  }
 
-    if (endsAt.getTime() <= startsAt.getTime()) {
-      return { error: "Data zakończenia musi być późniejsza niż data rozpoczęcia." };
-    }
+  const timingError = validateEventTiming({ startsAt, endsAt }, new Date());
+
+  if (timingError) {
+    return { error: timingError };
   }
 
   const descriptionHtml = DOMPurify.sanitize(description, {
@@ -126,14 +80,11 @@ export async function createEvent(
   let imagePath: string | null = null;
 
   if (image instanceof File && image.size > 0) {
-    const extension = ALLOWED_IMAGE_TYPES[image.type];
+    const extension = imageExtension(image.type);
+    const imageError = validateImage({ type: image.type, size: image.size });
 
-    if (!extension) {
-      return { error: "Zdjęcie musi być w formacie PNG, JPEG lub WebP." };
-    }
-
-    if (image.size > MAX_IMAGE_BYTES) {
-      return { error: "Zdjęcie może mieć maksymalnie 5MB." };
+    if (imageError) {
+      return { error: imageError };
     }
 
     const path = `${userId}/${crypto.randomUUID()}.${extension}`;
