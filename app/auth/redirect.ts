@@ -16,9 +16,5 @@ const getOrigin = (request: Request) => {
   return `${proto}://${host}`;
 };
 
-// Only allow same-origin paths, never "//evil.com", "@evil.com" or absolute URLs.
-export const safePath = (path: string | null) =>
-  path?.startsWith("/") && !path.startsWith("//") ? path : "/";
-
 export const redirectTo = (request: Request, path: string) =>
   NextResponse.redirect(`${getOrigin(request)}${path}`);

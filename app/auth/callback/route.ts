@@ -1,5 +1,6 @@
 import { createClient } from "@/core/supabase/server";
-import { redirectTo, safePath } from "../redirect";
+import { safePath } from "../safe-path";
+import { redirectTo } from "../redirect";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
