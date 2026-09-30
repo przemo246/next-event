@@ -6,6 +6,14 @@ export const PASSWORD = "e2e-password-123";
 export const uniqueEmail = () =>
   `${E2E_EMAIL_PREFIX}${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
 
+// Same collision resistance as uniqueEmail, but shaped to pass the
+// public.profiles CHECK: lowercase, digits and underscores, 3–30 characters.
+export const uniqueUsername = () =>
+  `${E2E_EMAIL_PREFIX}${Date.now()}${Math.random().toString(36).slice(2, 6)}`.replaceAll(
+    "-",
+    "_",
+  );
+
 export const fillLoginForm = async (
   page: Page,
   email: string,

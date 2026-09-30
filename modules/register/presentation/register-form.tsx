@@ -19,6 +19,17 @@ export const RegisterForm = ({
   return (
     <form action={formAction} className="flex flex-col gap-5">
       <TextField
+        label="Nazwa użytkownika"
+        name="username"
+        autoComplete="username"
+        hint="3–30 znaków: małe litery, cyfry i podkreślenie."
+        pattern="[a-zA-Z0-9_]+"
+        minLength={3}
+        maxLength={30}
+        required
+      />
+
+      <TextField
         label="E-mail"
         type="email"
         name="email"

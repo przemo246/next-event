@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { PASSWORD, uniqueEmail } from "./support/auth";
+import { PASSWORD, uniqueEmail, uniqueUsername } from "./support/auth";
 import { extractConfirmLink, waitForEmail } from "./support/mailpit";
 import { deleteUserByEmail } from "./support/test-user";
 
@@ -11,11 +11,14 @@ const fillRegisterForm = async (
   page: Page,
   email: string,
   confirmPassword = PASSWORD,
+  username = uniqueUsername(),
 ) => {
   createdEmails.add(email);
 
   await page.goto("/register");
-  await page.getByLabel("E-mail").fill(email);
+  // exact, so a hint leaking into the field's accessible name fails the test.
+  await page.getByLabel("Nazwa użytkownika", { exact: true }).fill(username);
+  await page.getByLabel("E-mail", { exact: true }).fill(email);
   await page.getByLabel("Hasło", { exact: true }).fill(PASSWORD);
   await page.getByLabel("Powtórz hasło").fill(confirmPassword);
   await page.getByRole("button", { name: "Zarejestruj się" }).click();
@@ -62,6 +65,28 @@ test("shows an error when passwords do not match", async ({ page }) => {
   await fillRegisterForm(page, uniqueEmail(), "different-password");
 
   await expect(page.getByText("Hasła nie są takie same.")).toBeVisible();
+});
+
+test("shows an error when the username is already taken", async ({ page }) => {
+  const username = uniqueUsername();
+
+  await fillRegisterForm(page, uniqueEmail(), PASSWORD, username);
+  await expect(
+    page.getByRole("heading", { name: "Potwierdź adres e-mail" }),
+  ).toBeVisible();
+
+  // A different account, same handle.
+  await fillRegisterForm(page, uniqueEmail(), PASSWORD, username);
+
+  await expect(
+    page.getByText("Ta nazwa użytkownika jest zajęta."),
+  ).toBeVisible();
+});
+
+test("rejects a reserved username", async ({ page }) => {
+  await fillRegisterForm(page, uniqueEmail(), PASSWORD, "admin");
+
+  await expect(page.getByText("Ta nazwa jest zarezerwowana.")).toBeVisible();
 });
 
 test("unconfirmed user cannot log in", async ({ page }) => {
