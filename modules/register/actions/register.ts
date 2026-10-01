@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/core/supabase/server";
 import type { RegisterState } from "../types/register";
-import { usernameSchema } from "../validation";
+import { usernameSchema } from "../helpers/validation";
 
 export async function register(
   _state: RegisterState,

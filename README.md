@@ -68,13 +68,13 @@ Unit tests (`__tests__/`, Vitest) cover the pure validation and routing rules
 in isolation: no Supabase, no Mailpit, no dev server. Each spec lives in a
 `__tests__` folder next to the code it covers, e.g.
 `modules/create-event/__tests__/validation.test.ts` tests
-`modules/create-event/validation.ts`.
+`modules/create-event/helpers/validation.ts`.
 
 End-to-end tests (`e2e/`, Playwright) need `pnpm db:start` and a dev server, so
 they are the slow layer and cover only the flows that genuinely need a browser
 and a real auth session.
 
 Pure logic that would otherwise be trapped inside a `"use server"` action lives
-in a sibling `validation.ts` (or, for the auth routes, `app/auth/safe-path.ts`)
-so it can be unit tested without stubbing `next/navigation` or the Supabase
-client.
+in a sibling `helpers/validation.ts` (or, for the auth routes,
+`app/auth/safe-path.ts`) so it can be unit tested without stubbing
+`next/navigation` or the Supabase client.

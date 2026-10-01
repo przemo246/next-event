@@ -7,7 +7,7 @@ import {
   schema,
   validateEventTiming,
   validateImage,
-} from "../validation";
+} from "../helpers/validation";
 
 const validInput = {
   name: "Koncert",

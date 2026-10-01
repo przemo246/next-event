@@ -3,7 +3,7 @@ import {
   RESERVED_USERNAMES,
   isReservedUsername,
   usernameSchema,
-} from "../validation";
+} from "../helpers/validation";
 
 const firstIssue = (input: unknown) => {
   const parsed = usernameSchema.safeParse(input);

@@ -11,7 +11,7 @@ import {
   schema,
   validateEventTiming,
   validateImage,
-} from "../validation";
+} from "../helpers/validation";
 
 export async function createEvent(
   _state: CreateEventState,
