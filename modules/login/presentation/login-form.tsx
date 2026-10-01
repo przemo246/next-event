@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { Button } from "@/libs/ui/button";
+import { PasswordField } from "@/libs/ui/password-field";
 import { ResendButton } from "@/shared/modules/email-confirmation/presentation/resend-button";
 import { Text } from "@/libs/ui/text";
 import { TextField } from "@/libs/ui/text-field";
@@ -21,9 +22,8 @@ export const LoginForm = () => {
           required
         />
 
-        <TextField
+        <PasswordField
           label="Hasło"
-          type="password"
           name="password"
           autoComplete="current-password"
           required

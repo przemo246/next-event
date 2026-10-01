@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/libs/ui/button";
+import { PasswordField } from "@/libs/ui/password-field";
 import { Text } from "@/libs/ui/text";
 import { TextField } from "@/libs/ui/text-field";
 import type { RegisterState } from "../types/register";
@@ -40,18 +41,16 @@ export const RegisterForm = ({
       {/* minLength is a browser hint only; the action has to enforce the same
           number. Keep the two in step with MIN_PASSWORD_LENGTH in
           ../helpers/validation -- not imported, because zod would ride along. */}
-      <TextField
+      <PasswordField
         label="Hasło"
-        type="password"
         name="password"
         autoComplete="new-password"
         minLength={6}
         required
       />
 
-      <TextField
+      <PasswordField
         label="Powtórz hasło"
-        type="password"
         name="confirmPassword"
         autoComplete="new-password"
         minLength={6}
