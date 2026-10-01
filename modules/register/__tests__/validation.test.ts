@@ -1,12 +1,19 @@
 import { describe, expect, it } from "vitest";
 import {
+  MIN_PASSWORD_LENGTH,
   RESERVED_USERNAMES,
   isReservedUsername,
+  passwordsSchema,
   usernameSchema,
 } from "../helpers/validation";
 
 const firstIssue = (input: unknown) => {
   const parsed = usernameSchema.safeParse(input);
+  return parsed.success ? null : parsed.error.issues[0];
+};
+
+const firstPasswordIssue = (input: unknown) => {
+  const parsed = passwordsSchema.safeParse(input);
   return parsed.success ? null : parsed.error.issues[0];
 };
 
@@ -105,5 +112,62 @@ describe("usernameSchema", () => {
     expect(firstIssue("A")?.message).toBe(
       "Nazwa użytkownika musi mieć co najmniej 3 znaki.",
     );
+  });
+});
+
+describe("passwordsSchema", () => {
+  const lengthError = `Hasło musi mieć co najmniej ${MIN_PASSWORD_LENGTH} znaków.`;
+  const atLimit = "a".repeat(MIN_PASSWORD_LENGTH);
+
+  it("accepts a matching pair", () => {
+    expect(
+      firstPasswordIssue({ password: "abcdef", confirmPassword: "abcdef" }),
+    ).toBeNull();
+  });
+
+  it("accepts a password of exactly the limit", () => {
+    expect(
+      firstPasswordIssue({ password: atLimit, confirmPassword: atLimit }),
+    ).toBeNull();
+  });
+
+  it("rejects a password one character under the limit", () => {
+    const short = "a".repeat(MIN_PASSWORD_LENGTH - 1);
+
+    expect(firstPasswordIssue({ password: short, confirmPassword: short })
+      ?.message).toBe(lengthError);
+  });
+
+  it("rejects a mismatched pair", () => {
+    expect(
+      firstPasswordIssue({
+        password: "abcdef",
+        confirmPassword: "different-password",
+      })?.message,
+    ).toBe("Hasła nie są takie same.");
+  });
+
+  it("reports the length error before the mismatch", () => {
+    // The action surfaces one message, so two different short passwords have to
+    // read as a length problem -- the mismatch would just be noise about a
+    // password the user has to retype anyway.
+    expect(firstPasswordIssue({ password: "ab", confirmPassword: "cd" })
+      ?.message).toBe(lengthError);
+  });
+
+  it("reports a mismatch when only the repeat is wrong", () => {
+    expect(
+      firstPasswordIssue({ password: atLimit, confirmPassword: `${atLimit}x` })
+        ?.message,
+    ).toBe("Hasła nie są takie same.");
+  });
+
+  it("treats an empty repeat as a mismatch rather than a length error", () => {
+    // The action rejects an empty password before this schema sees it, so the
+    // only empty repeat reaching here is a forgotten field. Saying the password
+    // is too short would send the user off to retype the one they got right.
+    expect(
+      firstPasswordIssue({ password: atLimit, confirmPassword: "" })?.message,
+    ).toBe("Hasła nie są takie same.");
   });
 });

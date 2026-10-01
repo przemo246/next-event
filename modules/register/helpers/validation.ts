@@ -38,3 +38,27 @@ export const usernameSchema = z
     (value) => !isReservedUsername(value),
     "Ta nazwa jest zarezerwowana.",
   );
+
+// Mirrors the minLength on both password TextFields, which the browser enforces
+// and a direct POST does not. Supabase's own minimum_password_length rejects a
+// short password too, but only as a failed sign-up, which the action reports as
+// a generic "could not create the account" -- wrong message for a field error.
+export const MIN_PASSWORD_LENGTH = 6;
+
+export const passwordsSchema = z
+  .object({
+    password: z
+      .string()
+      .min(
+        MIN_PASSWORD_LENGTH,
+        `Hasło musi mieć co najmniej ${MIN_PASSWORD_LENGTH} znaków.`,
+      ),
+    // Only the password carries the length rule: the repeat is a copy of it,
+    // and an empty repeat has to stay a mismatch rather than become a length
+    // error, since that reads as though the password itself were too short.
+    confirmPassword: z.string(),
+  })
+  .refine((value) => value.password === value.confirmPassword, {
+    message: "Hasła nie są takie same.",
+    path: ["confirmPassword"],
+  });

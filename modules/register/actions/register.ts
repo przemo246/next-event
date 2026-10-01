@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/core/supabase/server";
 import type { RegisterState } from "../types/register";
-import { usernameSchema } from "../helpers/validation";
+import { passwordsSchema, usernameSchema } from "../helpers/validation";
 
 export async function register(
   _state: RegisterState,
@@ -38,8 +38,16 @@ export async function register(
 
   const username = parsedUsername.data;
 
-  if (password !== confirmPassword) {
-    return { error: "Hasła nie są takie same." };
+  const parsedPasswords = passwordsSchema.safeParse({
+    password,
+    confirmPassword,
+  });
+
+  if (!parsedPasswords.success) {
+    return {
+      error:
+        parsedPasswords.error.issues[0]?.message ?? "Podaj poprawne hasło.",
+    };
   }
 
   const supabase = await createClient();
