@@ -1,14 +1,3 @@
-export type FeaturedEvent = {
-  id: string;
-  category: string;
-  date: string;
-  title: string;
-  time: string;
-  venue: string;
-  city: string;
-  priceFrom: string;
-};
-
 export type PopularCity = {
   id: string;
   name: string;

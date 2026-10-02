@@ -1,5 +1,4 @@
 import type {
-  FeaturedEvent,
   FooterLinkGroup,
   PopularCity,
   QuickFilter,
@@ -17,51 +16,6 @@ export const QUICK_FILTERS: QuickFilter[] = [
   { label: "Kino", href: "#" },
   { label: "Sport", href: "#" },
 ];
-
-export const FEATURED_EVENTS: FeaturedEvent[] = [
-  {
-    id: "hania-rani",
-    category: "Koncert",
-    date: "pt 25.09",
-    title: "Hania Rani",
-    time: "20:00",
-    venue: "Filharmonia",
-    city: "Warszawa",
-    priceFrom: "120 zł",
-  },
-  {
-    id: "wesele",
-    category: "Teatr",
-    date: "sob 26.09",
-    title: "Wesele",
-    time: "19:00",
-    venue: "Teatr Stary",
-    city: "Kraków",
-    priceFrom: "75 zł",
-  },
-  {
-    id: "smolna-noc",
-    category: "Klub",
-    date: "sob 26.09",
-    title: "Smolna: Noc",
-    time: "23:00",
-    venue: "Smolna",
-    city: "Warszawa",
-    priceFrom: "45 zł",
-  },
-  {
-    id: "lech-legia",
-    category: "Sport",
-    date: "nd 27.09",
-    title: "Lech — Legia",
-    time: "17:30",
-    venue: "Enea Stadion",
-    city: "Poznań",
-    priceFrom: "60 zł",
-  },
-];
-
-export const FEATURED_EVENTS_TOTAL = 212;
 
 export const POPULAR_CITIES: PopularCity[] = [
   { id: "warszawa", name: "Warszawa", eventCount: 4820 },
