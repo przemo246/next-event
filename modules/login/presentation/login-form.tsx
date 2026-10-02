@@ -31,7 +31,11 @@ export const LoginForm = () => {
 
         {state?.error && <Text.Error>{state.error}</Text.Error>}
 
-        <Button href="/resetuj-haslo" variant="link" className="-mt-2 self-start">
+        <Button
+          href="/resetuj-haslo"
+          variant="link"
+          className="-mt-2 self-start"
+        >
           Nie pamiętasz hasła?
         </Button>
 
