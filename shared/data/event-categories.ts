@@ -7,13 +7,15 @@ export const EVENT_CATEGORIES: readonly EventCategory[] = [
   {
     name: "Koncerty",
     subcategories: [
-      "Rock",
       "Pop",
+      "Rock",
       "Hip-Hop/Rap",
       "Elektronika",
       "Jazz",
-      "Disco Polo",
-      "Inne",
+      "Muzyka taneczna",
+      "Muzyka klasyczna",
+      "Folk",
+      "Metal",
     ],
   },
   { name: "Teatr" },
