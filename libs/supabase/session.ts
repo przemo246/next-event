@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const GUEST_ONLY_ROUTES = ["/login", "/register"];
+
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -27,7 +29,13 @@ export async function updateSession(request: NextRequest) {
 
   // Refreshes the auth token and keeps cookies in sync. Do not add logic
   // between client creation and this call.
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user && GUEST_ONLY_ROUTES.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   return response;
 }
