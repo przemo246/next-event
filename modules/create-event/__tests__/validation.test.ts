@@ -5,6 +5,7 @@ import {
   imageExtension,
   isValidUrl,
   schema,
+  validateCategorySelection,
   validateEventTiming,
   validateImage,
 } from "../helpers/validation";
@@ -12,6 +13,7 @@ import {
 const validInput = {
   name: "Koncert",
   description: "Opis wydarzenia.",
+  category: "Teatr",
   street: "Testowa 1",
   city: "Kraków",
   startDate: "2030-01-01",
@@ -163,10 +165,17 @@ describe("schema", () => {
     expect(firstIssue(validInput)).toBeNull();
   });
 
+  it("accepts a category with a valid subcategory", () => {
+    expect(
+      firstIssue({ ...validInput, category: "Koncerty", subcategory: "Rock" }),
+    ).toBeNull();
+  });
+
   it.each([
     ["name", { name: "" }, "Podaj nazwę wydarzenia."],
     ["street", { street: "" }, "Podaj adres (ulicę i numer)."],
     ["city", { city: "Atlantis" }, "Wybierz miasto z listy."],
+    ["category", { category: "Atlantis" }, "Wybierz kategorię z listy."],
     ["startDate", { startDate: "" }, "Podaj datę rozpoczęcia."],
     ["startTime", { startTime: "" }, "Podaj godzinę rozpoczęcia."],
     ["description", { description: "   " }, "Opis wydarzenia jest wymagany."],
@@ -212,5 +221,29 @@ describe("schema", () => {
     const parsed = schema.safeParse({ ...validInput, name: "  Koncert  " });
 
     expect(parsed.success && parsed.data.name).toBe("Koncert");
+  });
+});
+
+describe("validateCategorySelection", () => {
+  it("accepts a category with no subcategory", () => {
+    expect(validateCategorySelection({ category: "Teatr" })).toBeNull();
+  });
+
+  it("accepts a category with a subcategory it defines", () => {
+    expect(
+      validateCategorySelection({ category: "Koncerty", subcategory: "Rock" }),
+    ).toBeNull();
+  });
+
+  it("rejects a subcategory from a category that does not define it", () => {
+    expect(validateCategorySelection({ category: "Teatr", subcategory: "Rock" })).toBe(
+      "Wybierz podkategorię z listy.",
+    );
+  });
+
+  it("rejects a subcategory that does not belong to the chosen category", () => {
+    expect(
+      validateCategorySelection({ category: "Koncerty", subcategory: "Dramat" }),
+    ).toBe("Wybierz podkategorię z listy.");
   });
 });

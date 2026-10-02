@@ -9,6 +9,7 @@ import {
   combineDateAndTime,
   imageExtension,
   schema,
+  validateCategorySelection,
   validateEventTiming,
   validateImage,
 } from "../helpers/validation";
@@ -20,6 +21,8 @@ export async function createEvent(
   const parsed = schema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
+    category: formData.get("category"),
+    subcategory: formData.get("subcategory") || undefined,
     street: formData.get("street"),
     city: formData.get("city"),
     startDate: formData.get("startDate"),
@@ -33,8 +36,25 @@ export async function createEvent(
     return { error: parsed.error.issues[0]?.message ?? "Sprawdź poprawność formularza." };
   }
 
-  const { name, description, street, city, startDate, startTime, endDate, endTime, link } =
-    parsed.data;
+  const {
+    name,
+    description,
+    category,
+    subcategory,
+    street,
+    city,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    link,
+  } = parsed.data;
+
+  const categoryError = validateCategorySelection({ category, subcategory });
+
+  if (categoryError) {
+    return { error: categoryError };
+  }
 
   const startsAt = combineDateAndTime(startDate, startTime);
 
@@ -103,6 +123,8 @@ export async function createEvent(
     user_id: userId,
     name,
     description: descriptionHtml,
+    category,
+    subcategory: subcategory || null,
     street,
     city,
     starts_at: startsAt.toISOString(),

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EVENT_CATEGORY_NAMES, subcategoriesFor } from "@/shared/data/event-categories";
 import { POLISH_CITIES } from "@/shared/data/polish-cities";
 
 // Pure validation for the create-event form. Kept out of the "use server"
@@ -49,6 +50,13 @@ export const schema = z.object({
     .min(1, "Podaj nazwę wydarzenia.")
     .max(100, "Nazwa może mieć maksymalnie 100 znaków."),
   description: z.string().trim().min(1, "Opis wydarzenia jest wymagany."),
+  category: z
+    .string()
+    .refine(
+      (value) => EVENT_CATEGORY_NAMES.includes(value),
+      "Wybierz kategorię z listy.",
+    ),
+  subcategory: z.string().optional(),
   street: z
     .string()
     .trim()
@@ -88,6 +96,28 @@ export const validateEventTiming = (
 
   if (endsAt && endsAt.getTime() <= startsAt.getTime()) {
     return "Data zakończenia musi być późniejsza niż data rozpoczęcia.";
+  }
+
+  return null;
+};
+
+// A subcategory is only meaningful alongside the category that defines it
+// (e.g. a music genre only makes sense under "Koncerty"), which a plain
+// z.object cannot express, so it is checked the same way as event timing.
+export type CategorySelection = { category: string; subcategory?: string };
+
+export const validateCategorySelection = ({
+  category,
+  subcategory,
+}: CategorySelection): string | null => {
+  if (!subcategory) {
+    return null;
+  }
+
+  const allowedSubcategories = subcategoriesFor(category);
+
+  if (!allowedSubcategories?.includes(subcategory)) {
+    return "Wybierz podkategorię z listy.";
   }
 
   return null;

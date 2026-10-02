@@ -4,19 +4,53 @@ import { useActionState, useState } from "react";
 import { X } from "lucide-react";
 
 import { Button } from "@/libs/ui/button";
+import { SelectField } from "@/libs/ui/select-field";
 import { Text } from "@/libs/ui/text";
 import { TextField } from "@/libs/ui/text-field";
 import { CityField } from "@/shared/modules/city-field/presentation/city-field";
+import { EVENT_CATEGORIES, subcategoriesFor } from "@/shared/data/event-categories";
 import { createEvent } from "../actions/create-event";
 import { RichTextEditor } from "./rich-text-editor";
 
 export const CreateEventForm = () => {
   const [state, formAction, pending] = useActionState(createEvent, undefined);
   const [showEnd, setShowEnd] = useState(false);
+  const [category, setCategory] = useState("");
+  const subcategories = subcategoriesFor(category);
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
       <TextField label="Nazwa wydarzenia" name="name" required maxLength={100} />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <SelectField
+          label="Kategoria"
+          name="category"
+          required
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        >
+          <option value="" disabled>
+            Wybierz kategorię
+          </option>
+          {EVENT_CATEGORIES.map((eventCategory) => (
+            <option key={eventCategory.name} value={eventCategory.name}>
+              {eventCategory.name}
+            </option>
+          ))}
+        </SelectField>
+
+        {subcategories && (
+          <SelectField label="Podkategoria (opcjonalnie)" name="subcategory" defaultValue="">
+            <option value="">Wybierz podkategorię</option>
+            {subcategories.map((subcategory) => (
+              <option key={subcategory} value={subcategory}>
+                {subcategory}
+              </option>
+            ))}
+          </SelectField>
+        )}
+      </div>
 
       <RichTextEditor name="description" label="Opis wydarzenia" />
 
