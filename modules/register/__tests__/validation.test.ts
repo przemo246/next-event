@@ -19,12 +19,12 @@ const firstPasswordIssue = (input: unknown) => {
 
 describe("isReservedUsername", () => {
   // One case per entry. The e2e suite only ever checked "admin", so a typo in
-  // any of the other 13 used to pass silently.
+  // either of the other two used to pass silently.
   it.each(RESERVED_USERNAMES)("rejects the reserved name %s", (name) => {
     expect(isReservedUsername(name)).toBe(true);
   });
 
-  it.each(["jan", "janek", "administer", "admins", "log", "helpdesk", "profilu"])(
+  it.each(["jan", "janek", "administer", "admins", "rooted"])(
     "allows %s",
     (name) => {
       expect(isReservedUsername(name)).toBe(false);
@@ -100,10 +100,10 @@ describe("usernameSchema", () => {
     expect(firstIssue("  ADMIN  ")?.message).toBe("Ta nazwa jest zarezerwowana.");
   });
 
-  it("rejects a reserved name that is also too short", () => {
-    // "api" is both reserved and exactly 3 characters, so the length check
-    // passes and the reserved check is what must reject it.
-    expect(firstIssue("api")?.message).toBe("Ta nazwa jest zarezerwowana.");
+  it("rejects a reserved name that would otherwise be valid", () => {
+    // "root" passes the length and charset checks, so the reserved check is
+    // what must reject it.
+    expect(firstIssue("root")?.message).toBe("Ta nazwa jest zarezerwowana.");
   });
 
   it("reports the length error before the charset error", () => {
