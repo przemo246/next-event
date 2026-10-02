@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Module } from "@/core/modules/create-event";
+import { Main } from "@/modules/create-event/presentation/main";
 
 export const metadata: Metadata = {
   title: "Dodaj wydarzenie",
 };
 
 const Page = async () => {
-  return <Module />;
+  return <Main />;
 };
 export default Page;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Module } from "@/core/modules/search";
+import { Main } from "@/modules/search/presentation/main";
 
 export const metadata: Metadata = {
   title: "Szukaj wydarzeń",
@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 const Page = async ({ searchParams }: PageProps<"/search">) => {
   const params = await searchParams;
 
-  return <Module searchParams={params} />;
+  return <Main searchParams={params} />;
 };
 export default Page;

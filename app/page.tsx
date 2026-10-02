@@ -1,6 +1,6 @@
-import { Module } from "@/core/modules/landing";
+import { Main } from "@/modules/landing/presentation/main";
 
 const Page = () => {
-  return <Module />;
+  return <Main />;
 };
 export default Page;

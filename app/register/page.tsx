@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Module } from "@/core/modules/register";
+import { Main } from "@/modules/register/presentation/main";
 
 export const metadata: Metadata = {
   title: "Zarejestruj się",
 };
 
 const Page = () => {
-  return <Module />;
+  return <Main />;
 };
 export default Page;

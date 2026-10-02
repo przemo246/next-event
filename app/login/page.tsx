@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Module } from "@/core/modules/login";
+import { Main } from "@/modules/login/presentation/main";
 
 export const metadata: Metadata = {
   title: "Zaloguj się",
@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 const Page = async ({ searchParams }: PageProps<"/login">) => {
   const { error } = await searchParams;
 
-  return <Module linkError={error === "confirm"} />;
+  return <Main linkError={error === "confirm"} />;
 };
 export default Page;

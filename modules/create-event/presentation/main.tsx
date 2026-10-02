@@ -1,8 +1,16 @@
+import { redirect } from "next/navigation";
 import { Header } from "@/shared/modules/header/presentation/header";
 import { Text } from "@/libs/ui/text";
+import { getJWTClaims } from "@/libs/supabase/claims";
 import { CreateEventForm } from "./create-event-form";
 
-export const Main = () => {
+export const Main = async () => {
+  const claims = await getJWTClaims();
+
+  if (!claims) {
+    redirect("/login");
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />

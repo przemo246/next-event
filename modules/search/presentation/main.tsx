@@ -1,20 +1,31 @@
+import { createClient } from "@/libs/supabase/server";
 import { Header } from "@/shared/modules/header/presentation/header";
 import { Text } from "@/libs/ui/text";
 
-import type { EventFilters } from "../helpers/filters";
-import type { SearchEvent } from "../types/search-event";
+import {
+  DEFAULT_PAGE_SIZE,
+  parseFilters,
+} from "../helpers/filters";
+import type { RawSearchParams } from "../helpers/filters";
+import { toSearchEvent } from "../helpers/mapper";
+import { fetchEvents } from "../helpers/query";
 import { CategoryFilter } from "./category-filter";
 import { ResultsList } from "./results-list";
 import { SearchForm } from "./search-form";
 import { SortToggle } from "./sort-toggle";
 
 type MainProps = {
-  filters: EventFilters;
-  initialEvents: SearchEvent[];
-  initialHasMore: boolean;
+  searchParams: RawSearchParams;
 };
 
-export const Main = ({ filters, initialEvents, initialHasMore }: MainProps) => {
+export const Main = async ({ searchParams }: MainProps) => {
+  const filters = parseFilters(searchParams);
+  const supabase = await createClient();
+  const { events, hasMore } = await fetchEvents(supabase, filters, {
+    offset: 0,
+    limit: DEFAULT_PAGE_SIZE,
+  });
+
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
@@ -35,8 +46,8 @@ export const Main = ({ filters, initialEvents, initialHasMore }: MainProps) => {
 
         <ResultsList
           filters={filters}
-          initialEvents={initialEvents}
-          initialHasMore={initialHasMore}
+          initialEvents={events.map(toSearchEvent)}
+          initialHasMore={hasMore}
         />
       </main>
     </div>
