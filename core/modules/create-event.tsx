@@ -1,12 +1,11 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/core/supabase/server";
 import { Main } from "@/modules/create-event/presentation/main";
+import { getJWTClaims } from "@/libs/supabase/claims";
 
 export const Module = async () => {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getClaims();
+  const claims = await getJWTClaims();
 
-  if (!data?.claims) {
+  if (!claims) {
     redirect("/login");
   }
 
