@@ -1,21 +1,7 @@
-import type {
-  FooterLinkGroup,
-  PopularCity,
-  QuickFilter,
-} from "./types";
+import type { FooterLinkGroup, PopularCity } from "./types";
 
 export const HERO_SUBTITLE =
   "Koncerty, teatr, kino, kluby, festiwale i sport — 14 300 wydarzeń w 86 miastach. Szukaj po dacie, mieście i kategorii.";
-
-export const QUICK_FILTERS: QuickFilter[] = [
-  { label: "Dziś wieczorem", href: "#" },
-  { label: "Koncerty", href: "#" },
-  { label: "Teatr", href: "#" },
-  { label: "Kluby", href: "#" },
-  { label: "Festiwale", href: "#" },
-  { label: "Kino", href: "#" },
-  { label: "Sport", href: "#" },
-];
 
 export const POPULAR_CITIES: PopularCity[] = [
   { id: "warszawa", name: "Warszawa", eventCount: 4820 },
