@@ -9,7 +9,7 @@ export const Main = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
-      <div className="flex flex-1 items-center justify-center px-6 py-16 sm:px-10">
+      <main className="flex flex-1 items-center justify-center px-6 py-16 sm:px-10">
         <Container className="w-full max-w-md">
           <div className="mb-8 text-center">
             <Text.H1 className="mb-3">
@@ -34,7 +34,7 @@ export const Main = () => {
             Afisz.
           </Text.Caption>
         </Container>
-      </div>
+      </main>
     </div>
   );
 };

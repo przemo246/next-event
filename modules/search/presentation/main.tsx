@@ -19,7 +19,7 @@ export const Main = ({ filters, initialEvents, initialHasMore }: MainProps) => {
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
 
-      <div className="page-container flex flex-1 flex-col gap-8 px-6 py-12 sm:px-10">
+      <main className="page-container flex flex-1 flex-col gap-8 px-6 py-12 sm:px-10">
         <div className="flex flex-col gap-6">
           <Text.H1>
             Szukaj <Text.Accent>wydarzeń</Text.Accent>
@@ -38,7 +38,7 @@ export const Main = ({ filters, initialEvents, initialHasMore }: MainProps) => {
           initialEvents={initialEvents}
           initialHasMore={initialHasMore}
         />
-      </div>
+      </main>
     </div>
   );
 };

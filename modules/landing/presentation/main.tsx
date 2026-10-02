@@ -9,9 +9,11 @@ export const Main = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
-      <Hero />
-      <FeaturedEvents />
-      <PopularCities />
+      <main className="flex flex-1 flex-col">
+        <Hero />
+        <FeaturedEvents />
+        <PopularCities />
+      </main>
       <Footer />
     </div>
   );

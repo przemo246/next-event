@@ -6,7 +6,7 @@ export const Main = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
       <Header />
-      <div className="flex flex-1 justify-center px-6 py-16 sm:px-10">
+      <main className="flex flex-1 justify-center px-6 py-16 sm:px-10">
         <div className="w-full max-w-2xl">
           <div className="mb-8">
             <Text.H1 className="mb-3">
@@ -21,7 +21,7 @@ export const Main = () => {
             <CreateEventForm />
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
