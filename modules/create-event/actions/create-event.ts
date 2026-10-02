@@ -2,7 +2,7 @@
 
 import DOMPurify from "isomorphic-dompurify";
 import { redirect } from "next/navigation";
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import type { CreateEventState } from "../types/create-event";
 import {
   ALLOWED_DESCRIPTION_TAGS,
@@ -33,7 +33,10 @@ export async function createEvent(
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Sprawdź poprawność formularza." };
+    return {
+      error:
+        parsed.error.issues[0]?.message ?? "Sprawdź poprawność formularza.",
+    };
   }
 
   const {

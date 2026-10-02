@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import type { RegisterState } from "../types/register";
 import { passwordsSchema, usernameSchema } from "../helpers/validation";
 

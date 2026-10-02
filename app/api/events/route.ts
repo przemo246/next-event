@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import {
   DEFAULT_PAGE_SIZE,
   parseFilters,

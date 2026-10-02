@@ -1,5 +1,8 @@
-import { createClient } from "@/core/supabase/server";
-import { DEFAULT_PAGE_SIZE, parseFilters } from "@/modules/search/helpers/filters";
+import { createClient } from "@/libs/supabase/server";
+import {
+  DEFAULT_PAGE_SIZE,
+  parseFilters,
+} from "@/modules/search/helpers/filters";
 import { toSearchEvent } from "@/modules/search/helpers/mapper";
 import { fetchEvents } from "@/modules/search/helpers/query";
 import { Main } from "@/modules/search/presentation/main";

@@ -1,4 +1,4 @@
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import { safePath } from "../safe-path";
 import { redirectTo } from "../redirect";
 

@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 
 export async function signOut() {
   const supabase = await createClient();

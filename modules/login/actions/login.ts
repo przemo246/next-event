@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import type { LoginState } from "../types/login";
 
 export async function login(

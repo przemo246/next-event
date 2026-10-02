@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/core/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import type { ResendState } from "../types/resend";
 
 export async function resendConfirmation(
