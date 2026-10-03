@@ -1,7 +1,7 @@
-import type { FeaturedEventRow, OccasionFilterRow } from "./query";
+import type { FeaturedEventRow, QuickFilterRow } from "./query";
 import type { FeaturedEvent } from "../types/featured-event";
 import type { QuickFilter } from "../types/quick-filter";
-import { buildOccasionHref } from "./url";
+import { buildQuickFilterHref } from "./url";
 
 export const toFeaturedEvent = (row: FeaturedEventRow): FeaturedEvent => ({
   id: row.id,
@@ -16,7 +16,7 @@ export const toFeaturedEvent = (row: FeaturedEventRow): FeaturedEvent => ({
   subcategory: row.subcategory,
 });
 
-export const toQuickFilter = (row: OccasionFilterRow): QuickFilter => ({
-  label: row.label,
-  href: buildOccasionHref(row.date_from, row.date_to),
+export const toQuickFilter = (row: QuickFilterRow): QuickFilter => ({
+  name: row.name,
+  href: buildQuickFilterHref(row.date_from, row.date_to),
 });

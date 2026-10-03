@@ -1,4 +1,4 @@
 export type QuickFilter = {
-  label: string;
+  name: string;
   href: string;
 };

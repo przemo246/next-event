@@ -40,20 +40,20 @@ export const fetchFeaturedEvents = async (
   return { events: data as FeaturedEventRow[], total: count ?? data.length };
 };
 
-export type OccasionFilterRow = {
+export type QuickFilterRow = {
   id: number;
-  label: string;
+  name: string;
   date_from: string;
   date_to: string;
 };
 
-export const fetchOccasionFilters = async (
+export const fetchQuickFilters = async (
   supabase: SupabaseClient,
-): Promise<OccasionFilterRow[]> => {
+): Promise<QuickFilterRow[]> => {
   const { data, error } = await supabase
-    .from("landing_occasion_filters")
-    .select("id, label, date_from, date_to")
+    .from("quick_filters")
+    .select("id, name, date_from, date_to")
     .order("date_from", { ascending: true });
 
-  return error || !data ? [] : (data as OccasionFilterRow[]);
+  return error || !data ? [] : (data as QuickFilterRow[]);
 };
