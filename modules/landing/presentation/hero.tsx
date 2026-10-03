@@ -1,4 +1,3 @@
-import { HERO_SUBTITLE } from "./mocks";
 import { QuickFilters } from "./quick-filters";
 import { SearchPanel } from "./search-panel";
 
@@ -11,7 +10,8 @@ export const Hero = () => {
         </h1>
 
         <p className="mb-10 max-w-2xl text-lg leading-relaxed text-foreground-secondary sm:text-[19px]">
-          {HERO_SUBTITLE}
+          Koncerty, teatr, kino, kluby, festiwale i sport — 14 300 wydarzeń w
+          86 miastach. Szukaj po dacie, mieście i kategorii.
         </p>
 
         <SearchPanel />

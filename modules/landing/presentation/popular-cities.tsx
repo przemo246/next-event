@@ -2,7 +2,7 @@ import { Button } from "@/libs/ui/button";
 import { Text } from "@/libs/ui/text";
 
 import { CityCard } from "./city-card";
-import { POPULAR_CITIES, POPULAR_CITIES_TOTAL } from "./mocks";
+import { POPULAR_CITIES, POPULAR_CITIES_TOTAL } from "../data/popular_cities";
 
 export const PopularCities = () => {
   return (

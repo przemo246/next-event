@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Text } from "@/libs/ui/text";
 
-import type { PopularCity } from "./types";
-import { formatEventCount } from "./utils";
+import type { PopularCity } from "../types/city";
+import { formatEventCount } from "../helpers/format";
 
 type CityCardProps = {
   city: PopularCity;

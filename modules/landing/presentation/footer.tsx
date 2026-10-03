@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Text } from "@/libs/ui/text";
 
-import { FOOTER_LINK_GROUPS } from "./mocks";
+import { FOOTER_LINK_GROUPS } from "../data/footer";
 
 export const Footer = () => {
   const year = new Date().getFullYear();
