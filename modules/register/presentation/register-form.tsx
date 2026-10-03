@@ -38,9 +38,6 @@ export const RegisterForm = ({
         required
       />
 
-      {/* minLength is a browser hint only; the action has to enforce the same
-          number. Keep the two in step with MIN_PASSWORD_LENGTH in
-          ../helpers/validation -- not imported, because zod would ride along. */}
       <PasswordField
         label="Hasło"
         name="password"
