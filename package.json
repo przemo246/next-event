@@ -26,7 +26,8 @@
     "db:diff": "supabase db diff -f",
     "db:reset": "supabase db reset",
     "db:push": "supabase db push",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:gen-types": "pnpx supabase gen types typescript --local > shared/types/db-schema.ts"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
