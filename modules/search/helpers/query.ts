@@ -1,19 +1,7 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { QueryData, SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/shared/types/db-schema";
 
 import type { EventFilters } from "./filters";
-
-export type EventRow = {
-  id: number;
-  name: string;
-  city: string;
-  street: string;
-  starts_at: string;
-  ends_at: string | null;
-  image_path: string | null;
-  link: string | null;
-  category: string;
-  subcategory: string | null;
-};
 
 const SELECT_COLUMNS =
   "id, name, city, street, starts_at, ends_at, image_path, link, category, subcategory";
@@ -35,7 +23,7 @@ const exclusiveEndOfDayUtc = (isoDate: string) => {
 };
 
 export const buildEventsQuery = (
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   filters: EventFilters,
 ) => {
   let query = supabase.from("events").select(SELECT_COLUMNS);
@@ -60,7 +48,9 @@ export const buildEventsQuery = (
   // shows upcoming events rather than its entire history.
   query = query.gte(
     "starts_at",
-    filters.dateFrom ? startOfDayUtc(filters.dateFrom) : new Date().toISOString(),
+    filters.dateFrom
+      ? startOfDayUtc(filters.dateFrom)
+      : new Date().toISOString(),
   );
 
   if (filters.dateTo) {
@@ -70,13 +60,17 @@ export const buildEventsQuery = (
   return query.order("starts_at", { ascending: filters.sort === "asc" });
 };
 
+// PostgREST returns only the columns named in SELECT_COLUMNS, so the row type
+// is derived from the query itself rather than asserted to be the full row.
+export type EventRow = QueryData<ReturnType<typeof buildEventsQuery>>[number];
+
 export type FetchEventsResult = {
   events: EventRow[];
   hasMore: boolean;
 };
 
 export const fetchEvents = async (
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   filters: EventFilters,
   { offset, limit }: { offset: number; limit: number },
 ): Promise<FetchEventsResult> => {
@@ -87,12 +81,17 @@ export const fetchEvents = async (
     offset + limit,
   );
 
-  if (error || !data) {
+  if (error) {
+    console.error(
+      "[Database Error] fetchEvents failed:",
+      error.message,
+      error.details,
+    );
     return { events: [], hasMore: false };
   }
 
   return {
-    events: data.slice(0, limit) as EventRow[],
+    events: data.slice(0, limit),
     hasMore: data.length > limit,
   };
 };
