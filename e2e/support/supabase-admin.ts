@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import type { Database } from "@/shared/types/db-schema";
 
 const requireEnv = (name: string) => {
   const value = process.env[name];
@@ -17,7 +18,7 @@ export const createSupabaseAdminClient = () => {
   const secretKey =
     process.env.SUPABASE_SECRET_KEY || requireEnv("SUPABASE_SERVICE_ROLE_KEY");
 
-  return createClient(url, secretKey, {
+  return createClient<Database>(url, secretKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
