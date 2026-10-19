@@ -30,6 +30,14 @@ const CITY = "Kraków";
 const STREET = "Testowa 1";
 const DESCRIPTION = "Opis testowego wydarzenia.";
 
+// Display names as they appear in the selects, slugs as they land in the
+// columns — the taxonomy rows come from the database, so nothing here is a
+// hardcoded list the test owns.
+const CATEGORY = "Koncerty";
+const CATEGORY_SLUG = "koncerty";
+const SUBCATEGORY = "Jazz";
+const SUBCATEGORY_SLUG = "jazz";
+
 const loginAndOpenCreateEventForm = async (page: Page) => {
   await fillLoginForm(page, E2E_LOGIN_USER.email, E2E_LOGIN_USER.password);
   await expect(page).toHaveURL("/");
@@ -55,6 +63,12 @@ const fillCreateEventForm = async (
   await page.keyboard.type(DESCRIPTION);
 
   await page.getByLabel("Adres (ulica i numer)").fill(STREET);
+
+  // The category select is what reveals the subcategory one, so it has to come
+  // first — the subcategory field does not exist in the DOM until a category
+  // with subcategories is picked.
+  await page.getByLabel("Kategoria").selectOption(CATEGORY);
+  await page.getByLabel("Podkategoria").selectOption(SUBCATEGORY);
 
   // The combobox only commits a city picked from the listbox, so typing it and
   // moving on leaves the field empty.
@@ -88,7 +102,9 @@ test("logged-in user creates an event", async ({ page }) => {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
     .from("events")
-    .select("name, city, street, starts_at, description")
+    .select(
+      "name, city, street, starts_at, description, category:event_categories(slug), subcategory:event_subcategories(slug)",
+    )
     .eq("name", name)
     .maybeSingle();
 
@@ -96,6 +112,10 @@ test("logged-in user creates an event", async ({ page }) => {
   expect(data?.city).toBe(CITY);
   expect(data?.street).toBe(STREET);
   expect(data?.description).toContain(DESCRIPTION);
+  // The posted slugs are resolved to rows, so this is where a broken join or
+  // an unresolvable slug would surface.
+  expect(data?.category.slug).toBe(CATEGORY_SLUG);
+  expect(data?.subcategory?.slug).toBe(SUBCATEGORY_SLUG);
 });
 
 test("shows an error when the event date is in the past", async ({ page }) => {
