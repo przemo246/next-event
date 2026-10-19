@@ -57,9 +57,20 @@ export async function register(
   // retryable error without reading the Postgres code, so the failure is not
   // distinguishable afterwards. The unique index still has the final say, which
   // only matters if two people submit the same handle at the same moment.
-  const { data: taken } = await supabase.rpc("username_is_taken", {
-    candidate: username,
-  });
+  const { data: taken, error: takenError } = await supabase.rpc(
+    "username_is_taken",
+    {
+      candidate: username,
+    },
+  );
+
+  if (takenError) {
+    console.error(
+      "[Database Error] register username_is_taken failed:",
+      takenError.message,
+      takenError.details,
+    );
+  }
 
   if (taken) {
     return { error: "Ta nazwa użytkownika jest zajęta. Wybierz inną." };

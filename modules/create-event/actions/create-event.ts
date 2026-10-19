@@ -88,6 +88,16 @@ export async function createEvent(
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
+  // A failed lookup and a missing session both end up at /login, so log the
+  // former rather than letting a backend outage look like a logged-out user.
+  if (userError) {
+    console.error(
+      "[Auth Error] createEvent getUser failed:",
+      userError.message,
+      userError.code,
+    );
+  }
+
   if (userError || !userData?.user) {
     redirect("/login");
   }
