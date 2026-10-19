@@ -23,23 +23,71 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "events": {
+            "event_categories": {
                   Row: {
-                    "category": string,"city": string,"created_at": string,"description": string,"ends_at": string | null,"id": number,"image_path": string | null,"is_featured": boolean,"link": string | null,"name": string,"starts_at": string,"street": string,"subcategory": string | null,"user_id": string
+                    "id": number,"name": string,"position": number,"slug": string
                   }
+                  ComputedFields: never
                   Insert: {
-                    "category": string,"city": string,"created_at"?: string,"description": string,"ends_at"?: string | null,"id"?: never,"image_path"?: string | null,"is_featured"?: boolean,"link"?: string | null,"name": string,"starts_at": string,"street": string,"subcategory"?: string | null,"user_id": string
+                    "id"?: never,"name": string,"position"?: number,"slug": string
                   }
                   Update: {
-                    "category"?: string,"city"?: string,"created_at"?: string,"description"?: string,"ends_at"?: string | null,"id"?: never,"image_path"?: string | null,"is_featured"?: boolean,"link"?: string | null,"name"?: string,"starts_at"?: string,"street"?: string,"subcategory"?: string | null,"user_id"?: string
+                    "id"?: never,"name"?: string,"position"?: number,"slug"?: string
                   }
                   Relationships: [
                     
+                  ]
+                },"event_subcategories": {
+                  Row: {
+                    "category_id": number,"id": number,"name": string,"position": number,"slug": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "category_id": number,"id"?: never,"name": string,"position"?: number,"slug": string
+                  }
+                  Update: {
+                    "category_id"?: number,"id"?: never,"name"?: string,"position"?: number,"slug"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "event_subcategories_category_id_fkey"
+      columns: ["category_id"]
+isOneToOne: false
+      referencedRelation: "event_categories"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"events": {
+                  Row: {
+                    "category_id": number,"city": string,"created_at": string,"description": string,"ends_at": string | null,"id": number,"image_path": string | null,"is_featured": boolean,"link": string | null,"name": string,"starts_at": string,"street": string,"subcategory_id": number | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "category_id": number,"city": string,"created_at"?: string,"description": string,"ends_at"?: string | null,"id"?: never,"image_path"?: string | null,"is_featured"?: boolean,"link"?: string | null,"name": string,"starts_at": string,"street": string,"subcategory_id"?: number | null,"user_id": string
+                  }
+                  Update: {
+                    "category_id"?: number,"city"?: string,"created_at"?: string,"description"?: string,"ends_at"?: string | null,"id"?: never,"image_path"?: string | null,"is_featured"?: boolean,"link"?: string | null,"name"?: string,"starts_at"?: string,"street"?: string,"subcategory_id"?: number | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "events_category_id_fkey"
+      columns: ["category_id"]
+isOneToOne: false
+      referencedRelation: "event_categories"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "events_category_subcategory_fkey"
+      columns: ["category_id","subcategory_id"]
+isOneToOne: false
+      referencedRelation: "event_subcategories"
+      referencedColumns: ["category_id","id"]
+    }
                   ]
                 },"profiles": {
                   Row: {
                     "created_at": string,"id": string,"username": string | null
                   }
+                  ComputedFields: never
                   Insert: {
                     "created_at"?: string,"id": string,"username"?: string | null
                   }
@@ -53,6 +101,7 @@ export type Database = {
                   Row: {
                     "date_from": string,"date_to": string,"id": number,"name": string
                   }
+                  ComputedFields: never
                   Insert: {
                     "date_from": string,"date_to": string,"id"?: never,"name": string
                   }
