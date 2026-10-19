@@ -12,8 +12,8 @@ export const toFeaturedEvent = (row: FeaturedEventRow): FeaturedEvent => ({
   endsAt: row.ends_at,
   imagePath: row.image_path,
   link: row.link,
-  category: row.category,
-  subcategory: row.subcategory,
+  category: row.category.name,
+  subcategory: row.subcategory?.name ?? null,
 });
 
 export const toQuickFilter = (row: QuickFilterRow): QuickFilter => ({

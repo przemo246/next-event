@@ -2,7 +2,7 @@ import type { QueryData, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/shared/types/db-schema";
 
 const SELECT_COLUMNS =
-  "id, name, city, street, starts_at, ends_at, image_path, link, category, subcategory";
+  "id, name, city, street, starts_at, ends_at, image_path, link, category:event_categories(name), subcategory:event_subcategories(name)";
 
 export const FEATURED_EVENTS_LIMIT = 4;
 
