@@ -3,13 +3,14 @@
 import DOMPurify from "isomorphic-dompurify";
 import { redirect } from "next/navigation";
 import { createClient } from "@/libs/supabase/server";
+import { fetchEventCategories } from "@/shared/modules/event-taxonomy/helpers/query";
+import { resolveCategorySelection } from "@/shared/modules/event-taxonomy/helpers/selection";
 import type { CreateEventState } from "../types/create-event";
 import {
   ALLOWED_DESCRIPTION_TAGS,
   combineDateAndTime,
   imageExtension,
   schema,
-  validateCategorySelection,
   validateEventTiming,
   validateImage,
 } from "../helpers/validation";
@@ -53,12 +54,6 @@ export async function createEvent(
     link,
   } = parsed.data;
 
-  const categoryError = validateCategorySelection({ category, subcategory });
-
-  if (categoryError) {
-    return { error: categoryError };
-  }
-
   const startsAt = combineDateAndTime(startDate, startTime);
 
   if (!startsAt) {
@@ -99,6 +94,21 @@ export async function createEvent(
 
   const userId = userData.user.id;
 
+  // The slugs the form posted are turned into ids here rather than trusted:
+  // they arrive from the client, and the taxonomy may have changed since the
+  // page was rendered.
+  const categories = await fetchEventCategories(supabase);
+  const selection = resolveCategorySelection(categories, { category, subcategory });
+
+  if (!selection.ok) {
+    return {
+      error:
+        selection.reason === "category"
+          ? "Wybierz kategorię z listy."
+          : "Wybierz podkategorię z listy.",
+    };
+  }
+
   const image = formData.get("image");
   let imagePath: string | null = null;
 
@@ -126,8 +136,8 @@ export async function createEvent(
     user_id: userId,
     name,
     description: descriptionHtml,
-    category,
-    subcategory: subcategory || null,
+    category_id: selection.categoryId,
+    subcategory_id: selection.subcategoryId,
     street,
     city,
     starts_at: startsAt.toISOString(),

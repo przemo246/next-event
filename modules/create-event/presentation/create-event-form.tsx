@@ -8,15 +8,20 @@ import { SelectField } from "@/libs/ui/select-field";
 import { Text } from "@/libs/ui/text";
 import { TextField } from "@/libs/ui/text-field";
 import { CityField } from "@/shared/modules/city-field/presentation/city-field";
-import { EVENT_CATEGORIES, subcategoriesFor } from "@/shared/data/event-categories";
+import { findCategoryBySlug } from "@/shared/modules/event-taxonomy/helpers/selection";
+import type { EventCategory } from "@/shared/modules/event-taxonomy/types/event-category";
 import { createEvent } from "../actions/create-event";
 import { RichTextEditor } from "./rich-text-editor";
 
-export const CreateEventForm = () => {
+type CreateEventFormProps = {
+  categories: readonly EventCategory[];
+};
+
+export const CreateEventForm = ({ categories }: CreateEventFormProps) => {
   const [state, formAction, pending] = useActionState(createEvent, undefined);
   const [showEnd, setShowEnd] = useState(false);
   const [category, setCategory] = useState("");
-  const subcategories = subcategoriesFor(category);
+  const selectedCategory = findCategoryBySlug(categories, category);
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
@@ -33,19 +38,19 @@ export const CreateEventForm = () => {
           <option value="" disabled>
             Wybierz kategorię
           </option>
-          {EVENT_CATEGORIES.map((eventCategory) => (
-            <option key={eventCategory.name} value={eventCategory.name}>
-              {eventCategory.name}
+          {categories.map((candidate) => (
+            <option key={candidate.slug} value={candidate.slug}>
+              {candidate.name}
             </option>
           ))}
         </SelectField>
 
-        {subcategories && (
+        {selectedCategory && selectedCategory.subcategories.length > 0 && (
           <SelectField label="Podkategoria (opcjonalnie)" name="subcategory" defaultValue="">
             <option value="">Wybierz podkategorię</option>
-            {subcategories.map((subcategory) => (
-              <option key={subcategory} value={subcategory}>
-                {subcategory}
+            {selectedCategory.subcategories.map((subcategory) => (
+              <option key={subcategory.slug} value={subcategory.slug}>
+                {subcategory.name}
               </option>
             ))}
           </SelectField>

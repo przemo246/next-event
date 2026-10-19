@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
+import { createClient } from "@/libs/supabase/server";
 import { Header } from "@/shared/modules/header/presentation/header";
+import { fetchEventCategories } from "@/shared/modules/event-taxonomy/helpers/query";
 import { Text } from "@/libs/ui/text";
 import { getJWTClaims } from "@/libs/supabase/claims";
 import { CreateEventForm } from "./create-event-form";
@@ -10,6 +12,9 @@ export const Main = async () => {
   if (!claims) {
     redirect("/login");
   }
+
+  const supabase = await createClient();
+  const categories = await fetchEventCategories(supabase);
 
   return (
     <div className="flex min-h-full flex-1 flex-col bg-canvas font-body text-foreground">
@@ -26,7 +31,7 @@ export const Main = async () => {
           </div>
 
           <div className="border border-border bg-canvas-raised p-8">
-            <CreateEventForm />
+            <CreateEventForm categories={categories} />
           </div>
         </div>
       </main>
