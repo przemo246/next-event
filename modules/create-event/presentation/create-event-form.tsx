@@ -11,6 +11,7 @@ import { CityField } from "@/shared/modules/city-field/presentation/city-field";
 import { findCategoryBySlug } from "@/shared/modules/event-taxonomy/helpers/selection";
 import type { EventCategory } from "@/shared/modules/event-taxonomy/types/event-category";
 import { createEvent } from "../actions/create-event";
+import { IMAGE_SIZE_ERROR, MAX_IMAGE_BYTES, MAX_IMAGE_LABEL } from "../helpers/image";
 import { RichTextEditor } from "./rich-text-editor";
 
 type CreateEventFormProps = {
@@ -21,6 +22,7 @@ export const CreateEventForm = ({ categories }: CreateEventFormProps) => {
   const [state, formAction, pending] = useActionState(createEvent, undefined);
   const [showEnd, setShowEnd] = useState(false);
   const [category, setCategory] = useState("");
+  const [imageError, setImageError] = useState<string | null>(null);
   const selectedCategory = findCategoryBySlug(categories, category);
 
   return (
@@ -103,20 +105,29 @@ export const CreateEventForm = ({ categories }: CreateEventFormProps) => {
       )}
 
       <label className="flex flex-col gap-1.5">
-        <Text.Eyebrow>Zdjęcie (opcjonalnie)</Text.Eyebrow>
+        <Text.Eyebrow>Zdjęcie (opcjonalnie, maks. {MAX_IMAGE_LABEL})</Text.Eyebrow>
         <input
           type="file"
           name="image"
           accept="image/png,image/jpeg,image/webp"
+          aria-invalid={imageError ? true : undefined}
+          aria-describedby={imageError ? "image-error" : undefined}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            setImageError(
+              file && file.size > MAX_IMAGE_BYTES ? IMAGE_SIZE_ERROR : null,
+            );
+          }}
           className="cursor-pointer border border-border-strong bg-canvas px-4 py-3 text-[15px] text-foreground outline-none file:mr-4 file:cursor-pointer file:border-0 file:bg-canvas-inset file:px-3 file:py-1.5 file:text-foreground focus:border-accent"
         />
+        {imageError && <Text.Error id="image-error">{imageError}</Text.Error>}
       </label>
 
       <TextField label="Link (opcjonalnie)" type="url" name="link" placeholder="https://…" />
 
       {state?.error && <Text.Error>{state.error}</Text.Error>}
 
-      <Button type="submit" isDisabled={pending}>
+      <Button type="submit" isDisabled={pending || imageError !== null}>
         {pending ? "Zapisywanie…" : "Dodaj wydarzenie"}
       </Button>
     </form>

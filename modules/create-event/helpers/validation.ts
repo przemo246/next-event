@@ -1,16 +1,15 @@
 import { z } from "zod";
 import { POLISH_CITIES } from "@/shared/data/polish-cities";
+import {
+  ALLOWED_IMAGE_TYPES,
+  IMAGE_SIZE_ERROR,
+  MAX_IMAGE_BYTES,
+} from "./image";
+
+export { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES } from "./image";
 
 // Pure validation for the create-event form. Kept out of the "use server"
 // action so it can be unit tested without booting a server or a Supabase client.
-
-export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-
-export const ALLOWED_IMAGE_TYPES: Record<string, string> = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/webp": "webp",
-};
 
 export const ALLOWED_DESCRIPTION_TAGS = [
   "p",
@@ -106,7 +105,7 @@ export const validateImage = ({ type, size }: ImageCheck): string | null => {
   }
 
   if (size > MAX_IMAGE_BYTES) {
-    return "Zdjęcie może mieć maksymalnie 5MB.";
+    return IMAGE_SIZE_ERROR;
   }
 
   return null;

@@ -148,7 +148,7 @@ describe("validateImage", () => {
 
   it("rejects a file one byte over the limit", () => {
     expect(validateImage({ type: "image/png", size: MAX_IMAGE_BYTES + 1 })).toBe(
-      "Zdjęcie może mieć maksymalnie 5MB.",
+      "Zdjęcie może mieć maksymalnie 3 MB.",
     );
   });
 
