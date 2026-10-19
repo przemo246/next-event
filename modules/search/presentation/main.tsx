@@ -1,5 +1,6 @@
 import { createClient } from "@/libs/supabase/server";
 import { Header } from "@/shared/modules/header/presentation/header";
+import { fetchEventCategories } from "@/shared/modules/event-taxonomy/helpers/query";
 import { Text } from "@/libs/ui/text";
 
 import {
@@ -19,9 +20,12 @@ type MainProps = {
 };
 
 export const Main = async ({ searchParams }: MainProps) => {
-  const filters = parseFilters(searchParams);
   const supabase = await createClient();
-  const { events, hasMore } = await fetchEvents(supabase, filters, {
+  // One read feeds both the filter buttons and the slug-to-id lookups the
+  // events query needs.
+  const categories = await fetchEventCategories(supabase);
+  const filters = parseFilters(searchParams, categories);
+  const { events, hasMore } = await fetchEvents(supabase, filters, categories, {
     offset: 0,
     limit: DEFAULT_PAGE_SIZE,
   });
@@ -37,7 +41,7 @@ export const Main = async ({ searchParams }: MainProps) => {
           </Text.H1>
 
           <SearchForm filters={filters} />
-          <CategoryFilter filters={filters} />
+          <CategoryFilter filters={filters} categories={categories} />
         </div>
 
         <div className="flex items-center justify-end">

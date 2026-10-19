@@ -1,10 +1,20 @@
 import type { QueryData, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/shared/types/db-schema";
+import {
+  findCategoryBySlug,
+  findSubcategoryBySlug,
+} from "@/shared/modules/event-taxonomy/helpers/selection";
+import type { EventCategory } from "@/shared/modules/event-taxonomy/types/event-category";
 
 import type { EventFilters } from "./filters";
 
+// The category names travel with the row instead of being resolved from the
+// taxonomy afterwards, so a card renders the same way whether it came from the
+// server render or from `/api/events` on "load more". Kept as a single literal
+// because `+` would widen it to `string` and the select parser needs the exact
+// columns to type the row.
 const SELECT_COLUMNS =
-  "id, name, city, street, starts_at, ends_at, image_path, link, category, subcategory";
+  "id, name, city, street, starts_at, ends_at, image_path, link, category:event_categories(name), subcategory:event_subcategories(name)";
 
 // Postgres' LIKE/ILIKE treats `%` and `_` as wildcards and `\` as its escape
 // character, so a query containing them (e.g. "50%") has to be escaped before
@@ -25,6 +35,7 @@ const exclusiveEndOfDayUtc = (isoDate: string) => {
 export const buildEventsQuery = (
   supabase: SupabaseClient<Database>,
   filters: EventFilters,
+  taxonomy: readonly EventCategory[],
 ) => {
   let query = supabase.from("events").select(SELECT_COLUMNS);
 
@@ -36,12 +47,22 @@ export const buildEventsQuery = (
     query = query.eq("city", filters.city);
   }
 
-  if (filters.category) {
-    query = query.eq("category", filters.category);
+  // `parseFilters` already checked these slugs against the same taxonomy, so a
+  // lookup miss here cannot happen — and if it ever did, the filter is
+  // dropped rather than turned into a query that returns nothing.
+  const category = findCategoryBySlug(taxonomy, filters.category);
+
+  if (category) {
+    query = query.eq("category_id", category.id);
   }
 
-  if (filters.subcategory) {
-    query = query.eq("subcategory", filters.subcategory);
+  const subcategory =
+    category && filters.subcategory
+      ? findSubcategoryBySlug(category, filters.subcategory)
+      : undefined;
+
+  if (subcategory) {
+    query = query.eq("subcategory_id", subcategory.id);
   }
 
   // With no explicit `dateFrom`, default to "from now" so the search page
@@ -72,11 +93,12 @@ export type FetchEventsResult = {
 export const fetchEvents = async (
   supabase: SupabaseClient<Database>,
   filters: EventFilters,
+  taxonomy: readonly EventCategory[],
   { offset, limit }: { offset: number; limit: number },
 ): Promise<FetchEventsResult> => {
   // Range is inclusive, so asking for one row past `limit` tells us whether
   // there is more to load without a separate count query.
-  const { data, error } = await buildEventsQuery(supabase, filters).range(
+  const { data, error } = await buildEventsQuery(supabase, filters, taxonomy).range(
     offset,
     offset + limit,
   );
