@@ -126,27 +126,68 @@ export async function createEvent(
       .upload(path, image, { contentType: image.type });
 
     if (uploadError) {
+      console.error(
+        "[Storage Error] createEvent image upload failed:",
+        uploadError.message,
+      );
       return { error: "Nie udało się wgrać zdjęcia. Spróbuj ponownie." };
     }
 
     imagePath = path;
   }
 
-  const { error: insertError } = await supabase.from("events").insert({
-    user_id: userId,
-    name,
-    description: descriptionHtml,
-    category_id: selection.categoryId,
-    subcategory_id: selection.subcategoryId,
-    street,
-    city,
-    starts_at: startsAt.toISOString(),
-    ends_at: endsAt ? endsAt.toISOString() : null,
-    image_path: imagePath,
-    link: link || null,
-  });
+  // The upload above and the insert below cannot be one transaction — the DB
+  // and the bucket are separate systems — so a failed insert would leave the
+  // image orphaned with nothing referencing it. Best-effort delete it first.
+  const discardImage = async () => {
+    if (!imagePath) return;
 
-  if (insertError) {
+    const { error } = await supabase.storage
+      .from("event-images")
+      .remove([imagePath]);
+
+    if (error) {
+      console.error(
+        "[Storage Error] createEvent orphaned image cleanup failed:",
+        error.message,
+      );
+    }
+  };
+
+  let insertFailed = false;
+
+  try {
+    const { error: insertError } = await supabase.from("events").insert({
+      user_id: userId,
+      name,
+      description: descriptionHtml,
+      category_id: selection.categoryId,
+      subcategory_id: selection.subcategoryId,
+      street,
+      city,
+      starts_at: startsAt.toISOString(),
+      ends_at: endsAt ? endsAt.toISOString() : null,
+      image_path: imagePath,
+      link: link || null,
+    });
+
+    if (insertError) {
+      console.error(
+        "[Database Error] createEvent insert failed:",
+        insertError.message,
+        insertError.details,
+      );
+      insertFailed = true;
+    }
+  } catch (error) {
+    // A thrown failure (the request never reached the database, a network
+    // drop) orphans the image just the same as a returned error.
+    console.error("[Database Error] createEvent insert threw:", error);
+    insertFailed = true;
+  }
+
+  if (insertFailed) {
+    await discardImage();
     return { error: "Nie udało się zapisać wydarzenia. Spróbuj ponownie." };
   }
 
